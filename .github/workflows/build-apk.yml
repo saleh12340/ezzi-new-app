@@ -1,4 +1,4 @@
-name: Build Ezzi Grocery APK
+name: Build Ezzi Grocery Full APK
 
 on:
   push:
@@ -25,23 +25,14 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Build Android APK
+      - name: Generate Android Skeleton & Build APK
         run: |
-          mkdir -p /tmp/ezzi_workspace
-          cd /tmp/ezzi_workspace
-          flutter create ezzi_app --org com.ezzi.grocery --platforms android
-          cd ezzi_app
-          cp $GITHUB_WORKSPACE/pubspec.yaml ./pubspec.yaml
-          rm -rf lib
-          cp -r $GITHUB_WORKSPACE/lib ./lib
+          flutter create . --org com.ezzi.grocery --platforms android
           flutter pub get
           flutter build apk --debug
 
-          mkdir -p $GITHUB_WORKSPACE/build/app/outputs/flutter-apk
-          cp build/app/outputs/flutter-apk/app-debug.apk $GITHUB_WORKSPACE/build/app/outputs/flutter-apk/Ezzi-Grocery-App.apk
-
-      - name: Upload APK
+      - name: Upload Complete APK
         uses: actions/upload-artifact@v4
         with:
-          name: Ezzi-Grocery-APK
-          path: build/app/outputs/flutter-apk/Ezzi-Grocery-App.apk
+          name: Ezzi-Grocery-App
+          path: build/app/outputs/flutter-apk/app-debug.apk
