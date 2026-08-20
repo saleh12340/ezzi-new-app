@@ -27,18 +27,22 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Cordova & Build Signed Android APK
+      - name: Install Cordova & Build Clean Android APK
         run: |
           npm install -g cordova
+          
+          # إنشاء مجلد البناء في المجلد المؤقت لخادم أوبونتو لمنع أي تكرار
+          cd /tmp
           cordova create ezzi_app com.ezzi.grocery "بقالة العزي"
           cd ezzi_app
           cordova platform add android
           
-          # Copy website files into cordova www folder
+          # تفريغ المجلد الافتراضي ونسخ ملفات الموقع والصورة فقط
           rm -rf www/*
-          cp -r $GITHUB_WORKSPACE/* www/
+          cp $GITHUB_WORKSPACE/index.html www/
+          cp $GITHUB_WORKSPACE/avatar.jpg www/ || true
           
-          # Build Unsigned / Debug Android APK
+          # بناء تطبيق أندرويد حقيقي بصيغة Debug APK
           cordova build android --debug
 
           mkdir -p $GITHUB_WORKSPACE/output
