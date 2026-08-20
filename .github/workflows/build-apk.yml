@@ -26,6 +26,16 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Recreate Valid Android Project Structure
+        run: |
+          mkdir -p /tmp/backup
+          cp pubspec.yaml /tmp/backup/pubspec.yaml
+          cp -r lib /tmp/backup/lib
+          rm -rf android
+          flutter create . --org com.ezzi.grocery --project-name ezzi_grocery --platforms android
+          cp /tmp/backup/pubspec.yaml ./pubspec.yaml
+          cp -r /tmp/backup/lib ./
+
       - name: Install Dependencies
         run: flutter pub get
 
