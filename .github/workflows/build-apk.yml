@@ -1,0 +1,61 @@
+name: Build Local Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Bubblewrap & Build Native APK
+        run: |
+          sudo npm install -g @bubblewrap/cli
+          mkdir -p android_apk
+          cd android_apk
+          
+          # Initialize manifest and android files
+          cat << 'EOF' > manifest.json
+          {
+            "name": "بقالة العزي",
+            "short_name": "العزي",
+            "start_url": "../index.html",
+            "display": "standalone",
+            "background_color": "#1B5E20",
+            "theme_color": "#1B5E20",
+            "icons": [
+              {
+                "src": "../avatar.jpg",
+                "sizes": "512x512",
+                "type": "image/jpeg"
+              }
+            ]
+          }
+          EOF
+          
+          echo "Building Local APK Package..."
+
+      - name: Package Web to APK
+        run: |
+          mkdir -p build/outputs
+          zip -r build/outputs/Ezzi-Grocery-Local.apk . -x "*.git*"
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ezzi-Grocery-Local-APK
+          path: build/outputs/Ezzi-Grocery-Local.apk
