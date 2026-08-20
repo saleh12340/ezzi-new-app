@@ -25,20 +25,20 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Build Optimized Debug APK
+      - name: Build Android APK
         run: |
-          mkdir -p /tmp/build_env
-          cd /tmp/build_env
+          mkdir -p /tmp/ezzi_workspace
+          cd /tmp/ezzi_workspace
           flutter create ezzi_app --org com.ezzi.grocery --platforms android
           cd ezzi_app
           cp $GITHUB_WORKSPACE/pubspec.yaml ./pubspec.yaml
           rm -rf lib
           cp -r $GITHUB_WORKSPACE/lib ./lib
           flutter pub get
-          flutter build apk --debug --split-per-abi
+          flutter build apk --debug
 
           mkdir -p $GITHUB_WORKSPACE/build/app/outputs/flutter-apk
-          cp build/app/outputs/flutter-apk/app-arm64-v8a-debug.apk $GITHUB_WORKSPACE/build/app/outputs/flutter-apk/Ezzi-Grocery-App.apk
+          cp build/app/outputs/flutter-apk/app-debug.apk $GITHUB_WORKSPACE/build/app/outputs/flutter-apk/Ezzi-Grocery-App.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
