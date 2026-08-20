@@ -2,209 +2,231 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بقالة العزي للمواد الغذائية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بقالة العزي</title>
     <style>
+        /* ===== CSS Variables ===== */
         :root {
-            --primary-color: #1B5E20;
-            --primary-light: #E8F5E9;
-            --accent-gold: #D4A338;
-            --accent-gold-light: #FFF3E0;
-            --bg-color: #F4F6F8;
-            --card-white: #FFFFFF;
-            --text-dark: #1E293B;
+            --primary: #1B5E20;
+            --primary-light: #4CAF50;
+            --primary-dark: #0D3B0D;
+            --gold: #D4A338;
+            --gold-light: #F5E6B0;
+            --bg: #F5F7FA;
+            --card: #FFFFFF;
+            --text: #1E293B;
             --text-muted: #64748B;
-            --border-color: #E2E8F0;
-            --danger: #C62828;
-            --success: #2E7D32;
+            --border: #E2E8F0;
+            --danger: #DC2626;
+            --success: #16A34A;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --radius: 16px;
         }
 
+        /* ===== Reset ===== */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            display: flex;
-            flex-direction: column;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            padding-bottom: 75px;
-            user-select: none;
+            padding-bottom: 80px;
+            direction: rtl;
         }
 
-        /* Top Header */
+        /* ===== Header ===== */
         .header {
-            background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 60%, #388E3C 100%);
-            padding: 24px 16px 16px 16px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 20px 16px 16px;
             text-align: center;
             color: white;
-            border-bottom-left-radius: 24px;
-            border-bottom-right-radius: 24px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-radius: 0 0 28px 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 10;
         }
 
         .header h1 {
-            font-size: 22px;
-            margin-bottom: 12px;
+            font-size: 20px;
             font-weight: 800;
+            margin-bottom: 4px;
         }
 
-        .profile-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .profile-avatar {
-            width: 95px;
-            height: 95px;
-            border-radius: 50%;
-            border: 4px solid #FFFFFF;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-            object-fit: cover;
-            background-color: #E0E0E0;
-            cursor: pointer;
-        }
-
-        .welcome-title {
-            font-size: 18px;
-            font-weight: 800;
-            color: #FFFFFF;
-        }
-
-        .welcome-sub {
+        .header .subtitle {
             font-size: 12px;
-            color: #C8E6C9;
+            opacity: 0.85;
+            margin-bottom: 12px;
+        }
+
+        .profile-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             margin-top: 4px;
         }
 
-        .container {
-            padding: 16px;
-            flex: 1;
-            max-width: 600px;
-            margin: 0 auto;
-            width: 100%;
+        .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 3px solid white;
+            object-fit: cover;
+            background: #ccc;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
+        .avatar-label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* ===== Container ===== */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        /* ===== Tabs ===== */
         .tab-content {
             display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            animation: fadeUp 0.3s ease;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        .grid-container {
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== Home Grid ===== */
+        .grid-2 {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin-top: 8px;
         }
 
         .card {
-            border-radius: 16px;
+            background: var(--card);
+            border-radius: var(--radius);
             padding: 18px 10px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            border: 1px solid var(--border);
+            min-height: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-            cursor: pointer;
-            transition: transform 0.1s ease;
-            min-height: 100px;
         }
 
         .card:active {
             transform: scale(0.96);
         }
 
-        .card-gold { background: var(--accent-gold); color: #FFF; }
-        .card-green { background: #2E7D32; color: #FFF; }
-        .card-dark-green { background: var(--primary-color); color: #FFF; }
-        .card-white { 
-            background: var(--card-white); 
-            color: var(--text-dark); 
-            border: 1px solid var(--border-color); 
+        .card .icon {
+            font-size: 30px;
+            margin-bottom: 6px;
         }
 
-        .card-icon {
-            font-size: 34px;
-            margin-bottom: 8px;
-        }
-
-        .card-title {
+        .card .label {
             font-size: 13px;
-            font-weight: bold;
-            line-height: 1.3;
+            font-weight: 600;
         }
 
-        .card-badge {
+        .card .badge {
             font-size: 11px;
-            background: rgba(255,255,255,0.3);
-            padding: 2px 10px;
-            border-radius: 12px;
+            background: var(--primary-light);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
             margin-top: 4px;
         }
 
+        .card.gold { background: var(--gold); color: white; border-color: var(--gold); }
+        .card.gold .badge { background: rgba(255,255,255,0.25); }
+        .card.green { background: var(--primary); color: white; border-color: var(--primary); }
+        .card.green .badge { background: rgba(255,255,255,0.25); }
+        .card.white { background: white; }
+
+        /* ===== Invoice ===== */
         .invoice-box {
-            background: #FFFFFF;
-            border-radius: 16px;
+            background: white;
+            border-radius: var(--radius);
             padding: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .invoice-box .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .invoice-box .title-row h2 {
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .invoice-box .title-row .date {
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
         .form-group {
             margin-bottom: 12px;
-            text-align: right;
         }
 
         .form-group label {
             display: block;
             font-size: 13px;
-            font-weight: bold;
+            font-weight: 600;
             margin-bottom: 4px;
         }
 
         .form-control {
             width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
             font-size: 14px;
             outline: none;
             transition: border 0.2s;
+            background: var(--bg);
         }
 
         .form-control:focus {
-            border-color: var(--primary-color);
+            border-color: var(--primary);
+            background: white;
         }
 
         .form-row {
             display: flex;
             gap: 8px;
-            margin-bottom: 12px;
             flex-wrap: wrap;
         }
 
         .form-row .form-control {
             flex: 1;
-            min-width: 80px;
+            min-width: 60px;
         }
 
         .form-row .btn {
@@ -212,17 +234,17 @@
         }
 
         .btn {
-            padding: 10px 16px;
+            padding: 10px 18px;
             border: none;
             border-radius: 10px;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 14px;
             cursor: pointer;
+            transition: all 0.15s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
+            gap: 6px;
             white-space: nowrap;
         }
 
@@ -230,32 +252,40 @@
             transform: scale(0.95);
         }
 
-        .btn-primary { background-color: var(--primary-color); color: white; }
-        .btn-gold { background-color: var(--accent-gold); color: white; }
-        .btn-danger { background-color: var(--danger); color: white; }
-        .btn-outline { background-color: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-gold { background: var(--gold); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
         .btn-sm { padding: 6px 12px; font-size: 12px; }
 
-        .items-table {
+        /* ===== Table ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin: 12px 0;
             font-size: 13px;
         }
 
-        .items-table th, .items-table td {
-            border: 1px solid var(--border-color);
+        table th {
+            background: var(--bg);
+            color: var(--primary);
+            font-weight: 700;
             padding: 8px 6px;
+            border: 1px solid var(--border);
             text-align: center;
         }
 
-        .items-table th {
-            background-color: var(--primary-light);
-            color: var(--primary-color);
-            font-weight: bold;
+        table td {
+            padding: 8px 6px;
+            border: 1px solid var(--border);
+            text-align: center;
         }
 
-        .items-table .delete-btn {
+        table .del-btn {
             background: none;
             border: none;
             color: var(--danger);
@@ -264,80 +294,170 @@
             padding: 0 4px;
         }
 
-        .total-summary {
-            background: #FFF8E1;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 14px;
-            font-weight: bold;
+        .empty-row td {
+            color: var(--text-muted);
+            padding: 24px 8px;
         }
 
-        .summary-row {
+        /* ===== Summary ===== */
+        .summary {
+            background: #FFF8E1;
+            padding: 14px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .summary .row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 6px;
+            padding: 4px 0;
+            font-weight: 600;
         }
 
-        .summary-row:last-child {
-            margin-bottom: 0;
+        .summary .row .paid-input {
+            width: 100px;
+            padding: 4px 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: center;
         }
 
-        .footer-nav {
+        .summary .danger { color: var(--danger); }
+        .summary .success { color: var(--success); }
+
+        /* ===== Actions ===== */
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .actions .btn {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        /* ===== Ledger ===== */
+        .ledger-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            background: white;
+        }
+
+        .ledger-item .name {
+            font-weight: 600;
+        }
+
+        .ledger-item .debt {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        .ledger-item .meta {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ===== Reports ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .stat-box {
+            background: var(--bg);
+            padding: 14px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-box .label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ===== Settings ===== */
+        .settings-group {
+            margin-bottom: 14px;
+        }
+
+        .settings-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        /* ===== Bottom Nav ===== */
+        .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: #FFFFFF;
+            background: white;
             display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid var(--border-color);
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
             z-index: 100;
+            padding: 4px 0 8px;
         }
 
-        .nav-item {
+        .bottom-nav .nav-item {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 4px 0;
+            background: none;
+            border: none;
             color: var(--text-muted);
             font-size: 11px;
-            text-decoration: none;
             cursor: pointer;
-            border: none;
-            background: none;
-            width: 25%;
-            padding: 4px 0;
             transition: color 0.2s;
         }
 
-        .nav-item.active {
-            color: var(--accent-gold);
-            font-weight: bold;
-        }
-
-        .nav-icon {
+        .bottom-nav .nav-item .nav-icon {
             font-size: 22px;
             margin-bottom: 2px;
         }
 
-        .notification {
+        .bottom-nav .nav-item.active {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* ===== Notification ===== */
+        .toast {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--primary-color);
+            background: var(--primary-dark);
             color: white;
             padding: 12px 24px;
             border-radius: 12px;
-            font-weight: bold;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
             z-index: 999;
             display: none;
-            animation: slideDown 0.3s ease;
-            text-align: center;
             max-width: 90%;
+            text-align: center;
+            animation: slideDown 0.3s ease;
         }
 
         @keyframes slideDown {
@@ -345,236 +465,209 @@
             to { opacity: 1; transform: translateX(-50%) translateY(0); }
         }
 
-        .report-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 12px 0;
-        }
-
-        .stat-card {
-            background: var(--primary-light);
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary-color);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 30px 10px;
-            color: var(--text-muted);
-        }
-
-        .empty-state .icon {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-
+        /* ===== Print ===== */
         @media print {
-            body { padding-bottom: 0; background: #FFF; }
-            .footer-nav, .header, .btn, .no-print, .profile-container { display: none !important; }
-            .container { max-width: 100%; padding: 0; }
+            .bottom-nav, .header, .no-print, .actions, .form-row { display: none !important; }
+            body { padding: 0; background: white; }
+            .container { padding: 0; max-width: 100%; }
             .invoice-box { border: none; box-shadow: none; }
             .tab-content { display: block !important; }
-            #tab-home, #tab-ledger, #tab-settings { display: none !important; }
+            #tab-home, #tab-reports, #tab-ledger, #tab-settings { display: none !important; }
             #tab-orders { display: block !important; }
         }
 
-        /* Mobile optimizations */
-        @media (max-width: 480px) {
-            .grid-container { gap: 8px; }
-            .card { min-height: 80px; padding: 12px 8px; }
-            .card-icon { font-size: 28px; }
-            .card-title { font-size: 11px; }
+        /* ===== Responsive ===== */
+        @media (max-width: 420px) {
+            .grid-2 { gap: 8px; }
+            .card { min-height: 70px; padding: 12px 6px; }
+            .card .icon { font-size: 24px; }
+            .card .label { font-size: 11px; }
             .form-row { flex-direction: column; }
             .form-row .form-control { width: 100%; }
             .form-row .btn { width: 100%; }
-            .report-stats { grid-template-columns: 1fr 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div id="notification" class="notification"></div>
+    <!-- ===== Toast ===== -->
+    <div id="toast" class="toast"></div>
 
-    <div class="header">
-        <h1>بقالة العزي للمواد الغذائية</h1>
-        <div class="profile-container">
-            <img src="avatar.jpg" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200';" alt="صاحب بقالة العزي" class="profile-avatar" onclick="changeAvatar()">
+    <!-- ===== Header ===== -->
+    <header class="header">
+        <h1 id="shop-title">بقالة العزي</h1>
+        <div class="subtitle">للمواد الغذائية</div>
+        <div class="profile-row">
+            <img id="avatar-img" src="avatar.jpg" alt="صورة" class="avatar" onclick="changeAvatar()" onerror="this.src='https://ui-avatars.com/api/?name=العزي&background=4CAF50&color=fff&size=128'">
+            <span class="avatar-label">مرحباً بك 👋</span>
         </div>
-        <div class="welcome-title">مرحباً بكم في بقالتكم المفضلة!</div>
-        <div class="welcome-sub">تطبيقكم الشامل للتسوق، التقارير، والخدمات البنكية.</div>
-    </div>
+    </header>
 
+    <!-- ===== Container ===== -->
     <div class="container">
-        
-        <!-- Tab 1: Home -->
+
+        <!-- ===== HOME TAB ===== -->
         <div id="tab-home" class="tab-content active">
-            <div class="grid-container">
-                <div class="card card-gold" onclick="switchTab('tab-orders')">
-                    <div class="card-icon">🛍️</div>
-                    <div class="card-title">التسوق الفوري</div>
+            <div class="grid-2">
+                <div class="card gold" onclick="switchTab('tab-orders')">
+                    <span class="icon">🛍️</span>
+                    <span class="label">تسوق فوري</span>
                 </div>
-                <div class="card card-gold" onclick="switchTab('tab-reports')">
-                    <div class="card-icon">📊</div>
-                    <div class="card-title">تقارير المبيعات والمخزون</div>
-                    <div class="card-badge" id="report-badge">0 فاتورة</div>
+                <div class="card gold" onclick="switchTab('tab-reports')">
+                    <span class="icon">📊</span>
+                    <span class="label">تقارير</span>
+                    <span class="badge" id="report-badge">0</span>
                 </div>
-                <div class="card card-green" onclick="showNotification('خدمة كاش ونقد مفعّلة جاهزة! ✅')">
-                    <div class="card-icon">🤝</div>
-                    <div class="card-title">خدمات كاش ونقد</div>
+                <div class="card green" onclick="showToast('✅ خدمة كاش ونقد جاهزة')">
+                    <span class="icon">💰</span>
+                    <span class="label">كاش ونقد</span>
                 </div>
-                <div class="card card-dark-green" onclick="switchTab('tab-ledger')">
-                    <div class="card-icon">📖</div>
-                    <div class="card-title">دفتر الحسابات</div>
+                <div class="card green" onclick="switchTab('tab-ledger')">
+                    <span class="icon">📖</span>
+                    <span class="label">دفتر الحسابات</span>
                 </div>
-                <div class="card card-white" onclick="switchTab('tab-orders')">
-                    <div class="card-icon">🧾</div>
-                    <div class="card-title">طباعة الفواتير الحرارية</div>
+                <div class="card white" onclick="switchTab('tab-orders')">
+                    <span class="icon">🧾</span>
+                    <span class="label">فواتير</span>
                 </div>
-                <div class="card card-white" onclick="window.print()">
-                    <div class="card-icon">📄</div>
-                    <div class="card-title">طباعة تقرير PDF</div>
+                <div class="card white" onclick="window.print()">
+                    <span class="icon">📄</span>
+                    <span class="label">طباعة PDF</span>
                 </div>
             </div>
         </div>
 
-        <!-- Tab 2: Orders -->
+        <!-- ===== ORDERS TAB ===== -->
         <div id="tab-orders" class="tab-content">
             <div class="invoice-box">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                    <h2 style="font-size: 16px; color: var(--primary-color);">🧾 إنشاء فاتورة جديدة</h2>
-                    <span style="font-size: 12px; color: var(--text-muted);" id="invoice-date"></span>
+                <div class="title-row">
+                    <h2>🧾 فاتورة جديدة</h2>
+                    <span class="date" id="invoice-date"></span>
                 </div>
-                
+
                 <div class="form-group">
-                    <label>👤 اسم العميل:</label>
-                    <input type="text" id="customer-name" class="form-control" placeholder="أدخل اسم الزبون" value="عبده مياس">
+                    <label>👤 اسم العميل</label>
+                    <input type="text" id="customer-name" class="form-control" placeholder="أدخل اسم العميل">
                 </div>
 
                 <div class="form-row no-print">
-                    <input type="text" id="item-name" class="form-control" placeholder="اسم الصنف">
-                    <input type="number" id="item-quantity" class="form-control" placeholder="الكمية" value="1" style="max-width: 90px;">
-                    <input type="number" id="item-price" class="form-control" placeholder="السعر" style="max-width: 100px;">
+                    <input type="text" id="item-name" class="form-control" placeholder="الصنف">
+                    <input type="number" id="item-qty" class="form-control" placeholder="الكمية" value="1" min="1">
+                    <input type="number" id="item-price" class="form-control" placeholder="السعر" min="0">
                     <button class="btn btn-gold" onclick="addItem()">➕ إضافة</button>
                 </div>
 
-                <div style="overflow-x: auto;">
-                    <table class="items-table" id="invoice-items">
+                <div class="table-wrap">
+                    <table>
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>الصنف</th>
-                                <th>الكمية</th>
+                                <th>ك</th>
                                 <th>السعر</th>
                                 <th>الإجمالي</th>
-                                <th class="no-print">✕</th>
+                                <th class="no-print"></th>
                             </tr>
                         </thead>
                         <tbody id="invoice-body">
-                            <!-- سيتم إضافة الأصناف ديناميكياً -->
+                            <tr class="empty-row">
+                                <td colspan="6">لا توجد أصناف</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="total-summary">
-                    <div class="summary-row">
-                        <span>📦 إجمالي الأصناف:</span>
+                <div class="summary">
+                    <div class="row">
+                        <span>📦 عدد الأصناف</span>
                         <span id="item-count">0</span>
                     </div>
-                    <div class="summary-row">
-                        <span>💰 الإجمالي:</span>
+                    <div class="row">
+                        <span>💰 الإجمالي</span>
                         <span id="grand-total">0 ر.ي</span>
                     </div>
-                    <div class="summary-row" style="color: var(--success);">
-                        <span>✅ المدفوع:</span>
-                        <span><input type="number" id="paid-input" class="form-control" style="width: 100px; display: inline-block; padding: 4px 8px; font-size: 13px;" value="0" oninput="updateRemaining()"></span>
+                    <div class="row success">
+                        <span>✅ المدفوع</span>
+                        <span>
+                            <input type="number" id="paid-input" class="paid-input" value="0" min="0" oninput="calcRemaining()">
+                        </span>
                     </div>
-                    <div class="summary-row" style="color: var(--danger);">
-                        <span>⏳ المتبقي:</span>
-                        <span id="remaining-amount">0 ر.ي</span>
+                    <div class="row danger">
+                        <span>⏳ المتبقي</span>
+                        <span id="remaining">0 ر.ي</span>
                     </div>
                 </div>
 
-                <div class="no-print" style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="saveAndPrint()">🖨️ حفظ وطباعة</button>
-                    <button class="btn btn-outline" onclick="resetInvoice()">🔄 فاتورة جديدة</button>
-                    <button class="btn btn-danger" onclick="clearAllItems()">🗑️ مسح الكل</button>
+                <div class="actions no-print">
+                    <button class="btn btn-primary" onclick="saveInvoice()">💾 حفظ</button>
+                    <button class="btn btn-outline" onclick="resetInvoice()">🔄 جديد</button>
+                    <button class="btn btn-danger" onclick="clearItems()">🗑️ مسح</button>
                 </div>
             </div>
         </div>
 
-        <!-- Tab 3: Reports -->
+        <!-- ===== REPORTS TAB ===== -->
         <div id="tab-reports" class="tab-content">
             <div class="invoice-box">
-                <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-color);">📊 تقارير المبيعات</h2>
-                
-                <div class="report-stats">
-                    <div class="stat-card">
-                        <div class="stat-number" id="report-total-invoices">0</div>
-                        <div class="stat-label">عدد الفواتير</div>
+                <h2 style="font-size:16px;color:var(--primary);margin-bottom:8px;">📊 التقارير</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="number" id="total-invoices">0</div>
+                        <div class="label">عدد الفواتير</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="report-total-revenue">0</div>
-                        <div class="stat-label">إجمالي الإيرادات</div>
+                    <div class="stat-box">
+                        <div class="number" id="total-revenue">0</div>
+                        <div class="label">إجمالي الإيرادات</div>
                     </div>
                 </div>
 
-                <div style="margin-bottom: 12px;">
-                    <button class="btn btn-primary" onclick="loadReports()" style="width: 100%;">🔄 تحديث التقارير</button>
-                </div>
+                <button class="btn btn-primary" onclick="loadReports()" style="width:100%;margin-bottom:12px;">🔄 تحديث</button>
 
-                <div id="reports-list">
-                    <!-- سيتم عرض الفواتير المحفوظة هنا -->
-                </div>
+                <div id="reports-list"></div>
             </div>
         </div>
 
-        <!-- Tab 4: Ledger -->
+        <!-- ===== LEDGER TAB ===== -->
         <div id="tab-ledger" class="tab-content">
             <div class="invoice-box">
-                <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-color);">📖 دفتر حسابات الديون والعملاء</h2>
+                <h2 style="font-size:16px;color:var(--primary);margin-bottom:8px;">📖 دفتر الحسابات</h2>
+
                 <div class="form-group">
-                    <input type="text" id="search-customer" class="form-control" placeholder="🔍 بحث عن اسم عميل..." oninput="filterLedger()">
+                    <input type="text" id="search-ledger" class="form-control" placeholder="🔍 بحث عن عميل..." oninput="renderLedger()">
                 </div>
-                <div id="ledger-list">
-                    <!-- سيتم عرض العملاء والديون هنا -->
-                </div>
+
+                <div id="ledger-list"></div>
             </div>
         </div>
 
-        <!-- Tab 5: Settings -->
+        <!-- ===== SETTINGS TAB ===== -->
         <div id="tab-settings" class="tab-content">
             <div class="invoice-box">
-                <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-color);">⚙️ إعدادات بقالة العزي</h2>
-                <div class="form-group">
-                    <label>اسم التاجر:</label>
-                    <input type="text" id="shop-name" class="form-control" value="بقالة العزي للمواد الغذائية" onchange="updateShopName()">
+                <h2 style="font-size:16px;color:var(--primary);margin-bottom:12px;">⚙️ الإعدادات</h2>
+
+                <div class="settings-group">
+                    <label>🏪 اسم المتجر</label>
+                    <input type="text" id="shop-name" class="form-control" value="بقالة العزي" onchange="saveSettings()">
                 </div>
-                <div class="form-group">
-                    <label>هاتف التاجر:</label>
-                    <input type="text" id="shop-phone" class="form-control" value="+967 77 123 4567" onchange="updateShopPhone()">
+
+                <div class="settings-group">
+                    <label>📞 رقم الهاتف</label>
+                    <input type="text" id="shop-phone" class="form-control" value="+967 77 123 4567" onchange="saveSettings()">
                 </div>
-                <button class="btn btn-primary" onclick="exportData()" style="width: 100%; margin-top: 8px;">📤 تصدير البيانات (JSON)</button>
-                <button class="btn btn-outline" onclick="importData()" style="width: 100%; margin-top: 8px;">📥 استيراد البيانات (JSON)</button>
-                <button class="btn btn-danger" onclick="clearAllData()" style="width: 100%; margin-top: 8px;">🗑️ مسح جميع البيانات</button>
+
+                <button class="btn btn-primary" onclick="exportData()" style="width:100%;margin-top:6px;">📤 تصدير البيانات</button>
+                <button class="btn btn-outline" onclick="document.getElementById('import-input').click()" style="width:100%;margin-top:6px;">📥 استيراد البيانات</button>
+                <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(event)">
+                <button class="btn btn-danger" onclick="clearAll()" style="width:100%;margin-top:6px;">🗑️ مسح الكل</button>
             </div>
         </div>
 
     </div>
 
-    <div class="footer-nav">
+    <!-- ===== Bottom Nav ===== -->
+    <nav class="bottom-nav">
         <button class="nav-item active" onclick="switchTab('tab-home')">
             <span class="nav-icon">🏠</span>
             <span>الرئيسية</span>
@@ -588,43 +681,42 @@
             <span>التقارير</span>
         </button>
         <button class="nav-item" onclick="switchTab('tab-ledger')">
-            <span class="nav-icon">👤</span>
-            <span>الحساب</span>
+            <span class="nav-icon">📖</span>
+            <span>الحسابات</span>
         </button>
         <button class="nav-item" onclick="switchTab('tab-settings')">
             <span class="nav-icon">⚙️</span>
             <span>الإعدادات</span>
         </button>
-    </div>
+    </nav>
 
-    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="handleImport(event)">
-
+    <!-- ============================================================ -->
+    <!-- ===== JAVASCRIPT ===== -->
     <script>
-        // ===================== DATA LAYER =====================
-        let invoiceItems = [];
+        // =============================================
+        // DATA LAYER
+        // =============================================
+        let items = [];
         let invoices = [];
-        let nextItemId = 1;
+        let nextId = 1;
 
-        // Load from localStorage
+        // =============================================
+        // LOAD / SAVE
+        // =============================================
         function loadData() {
             try {
-                const saved = localStorage.getItem('alazi_data');
-                if (saved) {
-                    const data = JSON.parse(saved);
+                const raw = localStorage.getItem('ezzi_data');
+                if (raw) {
+                    const data = JSON.parse(raw);
                     invoices = data.invoices || [];
-                    invoiceItems = [];
-                    nextItemId = data.nextItemId || 1;
-                    
-                    // Load shop settings
+                    nextId = data.nextId || 1;
                     if (data.shopName) document.getElementById('shop-name').value = data.shopName;
                     if (data.shopPhone) document.getElementById('shop-phone').value = data.shopPhone;
-                    
+                    document.getElementById('shop-title').textContent = data.shopName || 'بقالة العزي';
                     updateBadge();
-                    renderLedger();
-                    loadReports();
                 }
-            } catch(e) {
-                console.error('Error loading data:', e);
+            } catch (e) {
+                console.warn('Load error:', e);
             }
         }
 
@@ -632,360 +724,344 @@
             try {
                 const data = {
                     invoices: invoices,
-                    nextItemId: nextItemId,
+                    nextId: nextId,
                     shopName: document.getElementById('shop-name').value,
                     shopPhone: document.getElementById('shop-phone').value
                 };
-                localStorage.setItem('alazi_data', JSON.stringify(data));
+                localStorage.setItem('ezzi_data', JSON.stringify(data));
+                document.getElementById('shop-title').textContent = data.shopName || 'بقالة العزي';
                 updateBadge();
-                renderLedger();
-                loadReports();
-            } catch(e) {
-                console.error('Error saving data:', e);
+            } catch (e) {
+                console.warn('Save error:', e);
             }
         }
 
         function updateBadge() {
-            document.getElementById('report-badge').textContent = invoices.length + ' فاتورة';
+            document.getElementById('report-badge').textContent = invoices.length;
         }
 
-        // ===================== INVOICE FUNCTIONS =====================
+        // =============================================
+        // INVOICE
+        // =============================================
         function addItem() {
             const name = document.getElementById('item-name').value.trim();
-            const quantity = parseInt(document.getElementById('item-quantity').value) || 1;
+            const qty = parseInt(document.getElementById('item-qty').value) || 1;
             const price = parseInt(document.getElementById('item-price').value);
 
             if (!name || !price || price <= 0) {
-                showNotification('⚠️ يرجى إدخال اسم الصنف وسعر صحيح');
+                showToast('⚠️ يرجى إدخال اسم الصنف وسعر صحيح');
                 return;
             }
 
-            const total = quantity * price;
-            invoiceItems.push({
-                id: nextItemId++,
+            items.push({
+                id: nextId++,
                 name: name,
-                quantity: quantity,
+                qty: qty,
                 price: price,
-                total: total
+                total: qty * price
             });
 
             renderInvoice();
             document.getElementById('item-name').value = '';
             document.getElementById('item-price').value = '';
-            document.getElementById('item-quantity').value = 1;
+            document.getElementById('item-qty').value = 1;
             document.getElementById('item-name').focus();
-            showNotification(`✅ تم إضافة "${name}"`);
+            showToast('✅ تم الإضافة');
         }
 
         function deleteItem(id) {
-            invoiceItems = invoiceItems.filter(item => item.id !== id);
+            items = items.filter(item => item.id !== id);
             renderInvoice();
         }
 
         function renderInvoice() {
             const tbody = document.getElementById('invoice-body');
-            tbody.innerHTML = '';
-
-            if (invoiceItems.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="color: var(--text-muted); padding: 20px;">لا توجد أصناف مضافة</td></tr>`;
-                document.getElementById('grand-total').textContent = '0 ر.ي';
+            if (items.length === 0) {
+                tbody.innerHTML = `<tr class="empty-row"><td colspan="6">لا توجد أصناف</td></tr>`;
                 document.getElementById('item-count').textContent = '0';
-                document.getElementById('remaining-amount').textContent = '0 ر.ي';
+                document.getElementById('grand-total').textContent = '0 ر.ي';
+                document.getElementById('remaining').textContent = '0 ر.ي';
                 return;
             }
 
-            let grandTotal = 0;
-            invoiceItems.forEach((item, index) => {
-                grandTotal += item.total;
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${item.name}</td>
-                    <td>${item.quantity}</td>
-                    <td>${item.price.toLocaleString()}</td>
-                    <td>${item.total.toLocaleString()}</td>
-                    <td class="no-print"><button class="delete-btn" onclick="deleteItem(${item.id})">✕</button></td>
+            let total = 0;
+            let html = '';
+            items.forEach((item, idx) => {
+                total += item.total;
+                html += `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td>${item.name}</td>
+                        <td>${item.qty}</td>
+                        <td>${item.price.toLocaleString()}</td>
+                        <td>${item.total.toLocaleString()}</td>
+                        <td class="no-print">
+                            <button class="del-btn" onclick="deleteItem(${item.id})">✕</button>
+                        </td>
+                    </tr>
                 `;
-                tbody.appendChild(row);
             });
 
-            document.getElementById('grand-total').textContent = grandTotal.toLocaleString() + ' ر.ي';
-            document.getElementById('item-count').textContent = invoiceItems.length;
-            updateRemaining();
+            tbody.innerHTML = html;
+            document.getElementById('item-count').textContent = items.length;
+            document.getElementById('grand-total').textContent = total.toLocaleString() + ' ر.ي';
+            calcRemaining();
         }
 
-        function updateRemaining() {
+        function calcRemaining() {
             const totalText = document.getElementById('grand-total').textContent;
             const total = parseInt(totalText.replace(/[^\d]/g, '')) || 0;
             const paid = parseInt(document.getElementById('paid-input').value) || 0;
-            const remaining = total - paid;
-            document.getElementById('remaining-amount').textContent = (remaining > 0 ? remaining : 0).toLocaleString() + ' ر.ي';
+            const rem = Math.max(0, total - paid);
+            document.getElementById('remaining').textContent = rem.toLocaleString() + ' ر.ي';
         }
 
         function resetInvoice() {
-            if (invoiceItems.length > 0 && !confirm('هل تريد البدء بفاتورة جديدة؟ سيتم مسح الأصناف الحالية.')) {
-                return;
-            }
-            invoiceItems = [];
+            if (items.length > 0 && !confirm('مسح الأصناف الحالية؟')) return;
+            items = [];
             document.getElementById('customer-name').value = '';
             document.getElementById('paid-input').value = 0;
             renderInvoice();
-            showNotification('🔄 فاتورة جديدة جاهزة');
+            showToast('🔄 فاتورة جديدة');
         }
 
-        function clearAllItems() {
-            if (invoiceItems.length === 0) return;
-            if (confirm('هل تريد حذف جميع الأصناف من الفاتورة؟')) {
-                invoiceItems = [];
-                renderInvoice();
-                showNotification('🗑️ تم مسح جميع الأصناف');
-            }
+        function clearItems() {
+            if (items.length === 0) return;
+            if (!confirm('حذف جميع الأصناف؟')) return;
+            items = [];
+            renderInvoice();
+            showToast('🗑️ تم المسح');
         }
 
-        function saveAndPrint() {
-            const customerName = document.getElementById('customer-name').value.trim() || 'عميل غير مسجل';
+        function saveInvoice() {
+            const customer = document.getElementById('customer-name').value.trim() || 'عميل غير مسجل';
             const totalText = document.getElementById('grand-total').textContent;
             const total = parseInt(totalText.replace(/[^\d]/g, '')) || 0;
             const paid = parseInt(document.getElementById('paid-input').value) || 0;
-            const remaining = total - paid;
 
-            if (invoiceItems.length === 0) {
-                showNotification('⚠️ لا توجد أصناف لحفظها!');
+            if (items.length === 0) {
+                showToast('⚠️ لا توجد أصناف');
                 return;
             }
 
             const invoice = {
                 id: Date.now(),
-                customer: customerName,
+                customer: customer,
                 date: new Date().toISOString(),
-                items: JSON.parse(JSON.stringify(invoiceItems)),
+                items: items.map(i => ({ ...i })),
                 total: total,
                 paid: paid,
-                remaining: remaining > 0 ? remaining : 0
+                remaining: Math.max(0, total - paid)
             };
 
             invoices.push(invoice);
             saveData();
+            showToast(`✅ تم حفظ فاتورة "${customer}"`);
 
             // Print
             window.print();
-            showNotification(`✅ تم حفظ الفاتورة لـ "${customerName}"`);
-            resetInvoice();
+
+            // Reset
+            items = [];
+            document.getElementById('customer-name').value = '';
+            document.getElementById('paid-input').value = 0;
+            renderInvoice();
         }
 
-        // ===================== LEDGER FUNCTIONS =====================
+        // =============================================
+        // LEDGER
+        // =============================================
         function renderLedger() {
             const container = document.getElementById('ledger-list');
-            const search = document.getElementById('search-customer')?.value?.trim() || '';
+            const search = document.getElementById('search-ledger').value.trim();
 
-            // Group by customer
-            const customerDebts = {};
+            const debts = {};
             invoices.forEach(inv => {
                 const name = inv.customer || 'غير مسجل';
                 if (search && !name.includes(search)) return;
-                if (!customerDebts[name]) customerDebts[name] = 0;
-                customerDebts[name] += inv.remaining;
+                if (inv.remaining > 0) {
+                    debts[name] = (debts[name] || 0) + inv.remaining;
+                }
             });
 
-            const entries = Object.entries(customerDebts).filter(([_, debt]) => debt > 0);
-
+            const entries = Object.entries(debts);
             if (entries.length === 0) {
-                container.innerHTML = `<div class="empty-state"><div class="icon">😊</div><p>لا توجد ديون مستحقة</p></div>`;
+                container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-muted);">😊 لا توجد ديون</div>`;
                 return;
             }
 
             container.innerHTML = entries.map(([name, debt]) => `
-                <div style="padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                <div class="ledger-item">
                     <div>
-                        <strong>${name}</strong>
-                        <div style="font-size: 11px; color: var(--text-muted);">آخر فاتورة: ${getLastInvoiceDate(name)}</div>
+                        <div class="name">${name}</div>
+                        <div class="meta">آخر فاتورة: ${getLastDate(name)}</div>
                     </div>
-                    <span style="color: var(--danger); font-weight: bold;">${debt.toLocaleString()} ر.ي</span>
+                    <div class="debt">${debt.toLocaleString()} ر.ي</div>
                 </div>
             `).join('');
         }
 
-        function getLastInvoiceDate(customer) {
-            const last = invoices.filter(inv => inv.customer === customer).pop();
-            if (!last) return 'غير معروف';
-            const d = new Date(last.date);
-            return d.toLocaleDateString('ar-EG');
+        function getLastDate(name) {
+            const inv = invoices.filter(i => i.customer === name).pop();
+            if (!inv) return 'غير معروف';
+            return new Date(inv.date).toLocaleDateString('ar-EG');
         }
 
-        function filterLedger() {
-            renderLedger();
-        }
-
-        // ===================== REPORTS FUNCTIONS =====================
+        // =============================================
+        // REPORTS
+        // =============================================
         function loadReports() {
-            const totalInvoices = invoices.length;
-            const totalRevenue = invoices.reduce((sum, inv) => sum + inv.total, 0);
-
-            document.getElementById('report-total-invoices').textContent = totalInvoices;
-            document.getElementById('report-total-revenue').textContent = totalRevenue.toLocaleString() + ' ر.ي';
+            document.getElementById('total-invoices').textContent = invoices.length;
+            const revenue = invoices.reduce((sum, inv) => sum + inv.total, 0);
+            document.getElementById('total-revenue').textContent = revenue.toLocaleString() + ' ر.ي';
 
             const container = document.getElementById('reports-list');
             if (invoices.length === 0) {
-                container.innerHTML = `<div class="empty-state"><div class="icon">📭</div><p>لا توجد فواتير محفوظة</p></div>`;
+                container.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text-muted);">📭 لا توجد فواتير</div>`;
                 return;
             }
 
-            // Show last 10 invoices
-            const recent = invoices.slice(-10).reverse();
+            const recent = [...invoices].reverse().slice(0, 10);
             container.innerHTML = recent.map(inv => `
-                <div style="padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 8px;">
-                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
-                        <span><strong>${inv.customer || 'عميل غير مسجل'}</strong></span>
+                <div style="padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:white;">
+                    <div style="display:flex;justify-content:space-between;font-size:13px;">
+                        <span><strong>${inv.customer || 'عميل'}</strong></span>
                         <span>${new Date(inv.date).toLocaleDateString('ar-EG')}</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-top:4px;">
                         <span>${inv.items.length} صنف</span>
-                        <span>الإجمالي: ${inv.total.toLocaleString()} ر.ي</span>
+                        <span>${inv.total.toLocaleString()} ر.ي</span>
                     </div>
                 </div>
             `).join('');
         }
 
-        // ===================== SETTINGS FUNCTIONS =====================
-        function updateShopName() {
-            const name = document.getElementById('shop-name').value;
-            document.querySelector('.header h1').textContent = name;
+        // =============================================
+        // SETTINGS
+        // =============================================
+        function saveSettings() {
             saveData();
-            showNotification('✅ تم تحديث اسم المتجر');
-        }
-
-        function updateShopPhone() {
-            saveData();
-            showNotification('✅ تم تحديث رقم الهاتف');
+            showToast('✅ تم حفظ الإعدادات');
         }
 
         function exportData() {
-            const data = localStorage.getItem('alazi_data');
-            if (!data) {
-                showNotification('⚠️ لا توجد بيانات للتصدير');
-                return;
-            }
+            const data = localStorage.getItem('ezzi_data');
+            if (!data) { showToast('⚠️ لا توجد بيانات'); return; }
             const blob = new Blob([data], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `بقالة_العزي_${new Date().toISOString().slice(0,10)}.json`;
-            document.body.appendChild(a);
+            a.download = `ezzi_${new Date().toISOString().slice(0,10)}.json`;
             a.click();
-            document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            showNotification('📤 تم تصدير البيانات بنجاح');
+            showToast('📤 تم التصدير');
         }
 
-        function importData() {
-            document.getElementById('import-file').click();
-        }
-
-        function handleImport(event) {
-            const file = event.target.files[0];
+        function importData(e) {
+            const file = e.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function(ev) {
                 try {
-                    const data = JSON.parse(e.target.result);
-                    if (data.invoices && Array.isArray(data.invoices)) {
-                        localStorage.setItem('alazi_data', JSON.stringify(data));
+                    const data = JSON.parse(ev.target.result);
+                    if (data.invoices) {
+                        localStorage.setItem('ezzi_data', JSON.stringify(data));
                         loadData();
-                        showNotification('📥 تم استيراد البيانات بنجاح');
+                        renderLedger();
+                        loadReports();
+                        showToast('📥 تم الاستيراد');
                     } else {
-                        showNotification('⚠️ ملف غير صالح');
+                        showToast('⚠️ ملف غير صالح');
                     }
-                } catch(err) {
-                    showNotification('⚠️ خطأ في قراءة الملف');
+                } catch (err) {
+                    showToast('⚠️ خطأ في القراءة');
                 }
             };
             reader.readAsText(file);
-            event.target.value = '';
+            e.target.value = '';
         }
 
-        function clearAllData() {
-            if (!confirm('⚠️ هل أنت متأكد من مسح جميع البيانات؟ هذا الإجراء لا يمكن التراجع عنه!')) return;
-            if (!confirm('تأكيد نهائي: مسح جميع الفواتير والديون؟')) return;
+        function clearAll() {
+            if (!confirm('⚠️ مسح جميع البيانات؟')) return;
+            if (!confirm('تأكيد نهائي؟')) return;
             invoices = [];
-            invoiceItems = [];
-            nextItemId = 1;
-            localStorage.removeItem('alazi_data');
+            items = [];
+            nextId = 1;
+            localStorage.removeItem('ezzi_data');
             loadData();
             renderInvoice();
-            showNotification('🗑️ تم مسح جميع البيانات');
+            renderLedger();
+            loadReports();
+            showToast('🗑️ تم مسح الكل');
         }
 
-        // ===================== AVATAR FUNCTION =====================
+        // =============================================
+        // AVATAR
+        // =============================================
         function changeAvatar() {
-            const url = prompt('أدخل رابط صورة جديدة (URL):', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200');
+            const url = prompt('رابط الصورة الجديدة:', 'https://ui-avatars.com/api/?name=العزي&background=4CAF50&color=fff&size=128');
             if (url) {
-                document.querySelector('.profile-avatar').src = url;
+                document.getElementById('avatar-img').src = url;
             }
         }
 
-        // ===================== NAVIGATION =====================
+        // =============================================
+        // NAVIGATION
+        // =============================================
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
             document.getElementById(tabId).classList.add('active');
 
-            const indexMap = {
+            const map = {
                 'tab-home': 0,
                 'tab-orders': 1,
                 'tab-reports': 2,
                 'tab-ledger': 3,
                 'tab-settings': 4
             };
-            const navItems = document.querySelectorAll('.nav-item');
-            if (indexMap[tabId] !== undefined) {
-                navItems[indexMap[tabId]].classList.add('active');
-            }
+            const navs = document.querySelectorAll('.nav-item');
+            if (map[tabId] !== undefined) navs[map[tabId]].classList.add('active');
 
-            // Refresh content when switching
             if (tabId === 'tab-ledger') renderLedger();
             if (tabId === 'tab-reports') loadReports();
             if (tabId === 'tab-orders') renderInvoice();
         }
 
-        // ===================== NOTIFICATION =====================
-        function showNotification(message) {
-            const el = document.getElementById('notification');
-            el.textContent = message;
+        // =============================================
+        // TOAST
+        // =============================================
+        function showToast(msg) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
             el.style.display = 'block';
-            clearTimeout(el._timeout);
-            el._timeout = setTimeout(() => {
-                el.style.display = 'none';
-            }, 2500);
+            clearTimeout(el._t);
+            el._t = setTimeout(() => { el.style.display = 'none'; }, 2500);
         }
 
-        // ===================== INIT =====================
-        // Set current date
+        // =============================================
+        // INIT
+        // =============================================
         document.getElementById('invoice-date').textContent = new Date().toLocaleDateString('ar-EG', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+            year: 'numeric', month: 'long', day: 'numeric'
         });
 
-        // Load data
         loadData();
         renderInvoice();
+        renderLedger();
+        loadReports();
 
-        // Keyboard shortcut: Enter to add item
+        // Enter shortcut
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const active = document.activeElement;
-                if (active && ['item-name', 'item-price', 'item-quantity'].includes(active.id)) {
+                if (active && ['item-name', 'item-price', 'item-qty'].includes(active.id)) {
                     addItem();
                 }
             }
         });
-
-        // ===================== SERVICE WORKER (PWA) =====================
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(() => {});
-        }
     </script>
+
 </body>
 </html>
