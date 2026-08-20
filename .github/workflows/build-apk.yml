@@ -27,29 +27,107 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Cordova & Build Clean Android APK
+      - name: Install Cordova & Create Android App
         run: |
           npm install -g cordova
           
-          # إنشاء مجلد البناء في المجلد المؤقت لخادم أوبونتو لمنع أي تكرار
+          # إنشاء المشروع في مجلد مؤقت
           cd /tmp
           cordova create ezzi_app com.ezzi.grocery "بقالة العزي"
           cd ezzi_app
+          
+          # إضافة منصة Android
           cordova platform add android
           
-          # تفريغ المجلد الافتراضي ونسخ ملفات الموقع والصورة فقط
+          # نسخ ملفات المشروع
           rm -rf www/*
-          cp $GITHUB_WORKSPACE/index.html www/
-          cp $GITHUB_WORKSPACE/avatar.jpg www/ || true
           
-          # بناء تطبيق أندرويد حقيقي بصيغة Debug APK
-          cordova build android --debug
+          # نسخ ملف HTML الرئيسي
+          cp $GITHUB_WORKSPACE/index.html www/
+          
+          # نسخ الصور إذا وجدت
+          cp $GITHUB_WORKSPACE/avatar.jpg www/ || true
+          cp $GITHUB_WORKSPACE/icon.png www/ || true
+          
+          # إضافة ملف manifest.json لتطبيق PWA
+          cat > www/manifest.json << EOF
+          {
+            "name": "بقالة العزي",
+            "short_name": "العزي",
+            "start_url": "index.html",
+            "display": "standalone",
+            "background_color": "#1B5E20",
+            "theme_color": "#1B5E20",
+            "icons": [
+              {
+                "src": "icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png"
+              },
+              {
+                "src": "icon-512.png",
+                "sizes": "512x512",
+                "type": "image/png"
+              }
+            ]
+          }
+          EOF
+          
+          # إضافة ملف service worker (اختياري)
+          cat > www/sw.js << EOF
+          self.addEventListener('install', e => {
+            e.waitUntil(
+              caches.open('ezzi-v1').then(cache => {
+                return cache.addAll([
+                  '/',
+                  '/index.html',
+                  '/manifest.json'
+                ]);
+              })
+            );
+          });
+          self.addEventListener('fetch', e => {
+            e.respondWith(
+              caches.match(e.request).then(response => {
+                return response || fetch(e.request);
+              })
+            );
+          });
+          EOF
+          
+          # إضافة إعدادات Android الخاصة بالتطبيق
+          cat > platforms/android/app/src/main/res/values/strings.xml << EOF
+          <resources>
+              <string name="app_name">بقالة العزي</string>
+              <string name="launcher_name">@string/app_name</string>
+              <string name="activity_name">@string/launcher_name</string>
+          </resources>
+          EOF
+          
+          # بناء APK
+          cordova build android --release -- --packageType=apk
+          
+          # إذا فشل بناء الـ release، جرب debug
+          if [ ! -f platforms/android/app/build/outputs/apk/release/app-release.apk ]; then
+            cordova build android --debug
+            cp platforms/android/app/build/outputs/apk/debug/app-debug.apk $GITHUB_WORKSPACE/output/Ezzi-Grocery-App-debug.apk
+          else
+            cp platforms/android/app/build/outputs/apk/release/app-release.apk $GITHUB_WORKSPACE/output/Ezzi-Grocery-App-release.apk
+          fi
 
-          mkdir -p $GITHUB_WORKSPACE/output
-          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk $GITHUB_WORKSPACE/output/Ezzi-Grocery-App.apk
+      - name: Create Output Directory
+        run: mkdir -p $GITHUB_WORKSPACE/output
 
-      - name: Upload Real APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Ezzi-Grocery-Real-APK
-          path: output/Ezzi-Grocery-App.apk
+          name: Ezzi-Grocery-APK
+          path: output/*.apk
+          retention-days: 30
+
+      - name: Upload to Release (Optional)
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: output/*.apk
+          generate_release_notes: true
