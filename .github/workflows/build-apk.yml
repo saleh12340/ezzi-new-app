@@ -13,11 +13,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Java Development Kit (JDK 11)
+      - name: Set up Java Development Kit (JDK 17)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -26,23 +26,24 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Recreate Valid Android Project Structure
+      - name: Accept Android Licenses & Generate App
         run: |
+          yes | flutter doctor --android-licenses || true
           mkdir -p /tmp/backup
           cp pubspec.yaml /tmp/backup/pubspec.yaml
           cp -r lib /tmp/backup/lib
           rm -rf android
-          flutter create . --org com.ezzi.grocery --project-name ezzi_grocery --platforms android
+          flutter create . --org com.ezzi.grocery --project-name ezzi_grocery --platforms android --android-language kotlin
           cp /tmp/backup/pubspec.yaml ./pubspec.yaml
           cp -r /tmp/backup/lib ./
 
-      - name: Install Dependencies
+      - name: Get Dependencies
         run: flutter pub get
 
-      - name: Build Android APK
-        run: flutter build apk --debug
+      - name: Build APK
+        run: flutter build apk --debug --suppress-analytics
 
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Ezzi-Grocery-APK
