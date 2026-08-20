@@ -25,21 +25,19 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Rebuild Project Structure
+      - name: Create Clean Flutter Skeleton
         run: |
-          mkdir -p /tmp/backup
-          cp pubspec.yaml /tmp/backup/pubspec.yaml
-          cp -r lib /tmp/backup/lib
-          rm -rf android
-          flutter create . --org com.ezzi.grocery --project-name ezzi_grocery --platforms android
-          cp /tmp/backup/pubspec.yaml ./pubspec.yaml
-          cp -r /tmp/backup/lib ./
-
-      - name: Install Dependencies
-        run: flutter pub get
-
-      - name: Build Android APK
-        run: flutter build apk --debug --no-tree-shake-icons
+          mkdir -p /tmp/app_temp
+          cd /tmp/app_temp
+          flutter create ezzi_app --org com.ezzi.grocery
+          cd ezzi_app
+          cp $GITHUB_WORKSPACE/pubspec.yaml ./pubspec.yaml
+          rm -rf lib
+          cp -r $GITHUB_WORKSPACE/lib ./lib
+          flutter pub get
+          flutter build apk --debug --no-tree-shake-icons
+          mkdir -p $GITHUB_WORKSPACE/build/app/outputs/flutter-apk
+          cp build/app/outputs/flutter-apk/app-debug.apk $GITHUB_WORKSPACE/build/app/outputs/flutter-apk/app-debug.apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
