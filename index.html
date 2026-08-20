@@ -33,9 +33,10 @@
             flex-direction: column;
             min-height: 100vh;
             padding-bottom: 75px;
+            user-select: none;
         }
 
-        /* الهيدر العلوي والصورة الشخصية */
+        /* Top Header */
         .header {
             background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 60%, #388E3C 100%);
             padding: 24px 16px 16px 16px;
@@ -81,7 +82,6 @@
             margin-top: 4px;
         }
 
-        /* المكونات والتبويبات */
         .container {
             padding: 16px;
             flex: 1;
@@ -98,7 +98,6 @@
             display: block;
         }
 
-        /* شبكة الكروت الرئيسية */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -144,7 +143,6 @@
             line-height: 1.3;
         }
 
-        /* قسم الفاتورة */
         .invoice-box {
             background: #FFFFFF;
             border-radius: 16px;
@@ -193,7 +191,6 @@
         .btn-gold { background-color: var(--accent-gold); color: white; }
         .btn-outline { background-color: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); }
 
-        /* جدول الأصناف */
         .items-table {
             width: 100%;
             border-collapse: collapse;
@@ -227,7 +224,6 @@
             margin-bottom: 6px;
         }
 
-        /* شريط التنقل السفلي */
         .footer-nav {
             position: fixed;
             bottom: 0;
@@ -275,7 +271,6 @@
 </head>
 <body>
 
-    <!-- الهيدر والصورة الشخصية -->
     <div class="header">
         <h1>بقالة العزي للمواد الغذائية</h1>
         <div class="profile-container">
@@ -287,7 +282,7 @@
 
     <div class="container">
         
-        <!-- التبويب 1: الرئيسية -->
+        <!-- Tab 1: Home -->
         <div id="tab-home" class="tab-content active">
             <div class="grid-container">
                 <div class="card card-gold" onclick="switchTab('tab-orders')">
@@ -317,7 +312,7 @@
             </div>
         </div>
 
-        <!-- التبويب 2: الطلبات والفواتير -->
+        <!-- Tab 2: Orders -->
         <div id="tab-orders" class="tab-content">
             <div class="invoice-box">
                 <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-color);">إنشاء فاتورة جديدة</h2>
@@ -377,7 +372,7 @@
             </div>
         </div>
 
-        <!-- التبويب 3: الدفتر -->
+        <!-- Tab 3: Accounts -->
         <div id="tab-ledger" class="tab-content">
             <div class="invoice-box">
                 <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-color);">دفتر حسابات الديون والعملاء</h2>
@@ -394,18 +389,17 @@
             </div>
         </div>
 
-        <!-- التبويب 4: الإعدادات -->
+        <!-- Tab 4: Settings -->
         <div id="tab-settings" class="tab-content">
             <div class="invoice-box">
                 <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-color);">إعدادات بقالة العزي</h2>
-                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">إعدادات النظام وطباعة الفواتير الحرارية.</p>
-                <button class="btn btn-outline" onclick="alert('تم حفظ الإعدادات بنجاح!')">حفظ البيانات محلياً</button>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">إعدادات النظام وتطبيقات الهاتف المحلي.</p>
+                <button class="btn btn-outline" onclick="alert('تم حفظ البيانات بنجاح على هاتفك!')">حفظ البيانات محلياً</button>
             </div>
         </div>
 
     </div>
 
-    <!-- شريط التنقل السفلي -->
     <div class="footer-nav">
         <button class="nav-item active" onclick="switchTab('tab-home')">
             <span class="nav-icon">🏠</span>
