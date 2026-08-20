@@ -1,0 +1,479 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بقالة العزي للمواد الغذائية</title>
+    <style>
+        :root {
+            --primary-color: #1B5E20;
+            --primary-light: #E8F5E9;
+            --accent-gold: #D4A338;
+            --accent-gold-light: #FFF3E0;
+            --bg-color: #F4F6F8;
+            --card-white: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-bottom: 75px;
+        }
+
+        /* الهيدر العلوي والصورة الشخصية */
+        .header {
+            background: linear-gradient(180deg, #1B5E20 0%, #2E7D32 60%, #388E3C 100%);
+            padding: 24px 16px 16px 16px;
+            text-align: center;
+            color: white;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .profile-avatar {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            border: 4px solid #FFFFFF;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+            object-fit: cover;
+            background-color: #E0E0E0;
+        }
+
+        .welcome-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+
+        .welcome-sub {
+            font-size: 12px;
+            color: #C8E6C9;
+            margin-top: 4px;
+        }
+
+        /* المكونات والتبويبات */
+        .container {
+            padding: 16px;
+            flex: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* شبكة الكروت الرئيسية */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border-radius: 16px;
+            padding: 18px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .card:active {
+            transform: scale(0.96);
+        }
+
+        .card-gold { background: var(--accent-gold); color: #FFF; }
+        .card-green { background: #2E7D32; color: #FFF; }
+        .card-dark-green { background: var(--primary-color); color: #FFF; }
+        .card-white { 
+            background: var(--card-white); 
+            color: var(--text-dark); 
+            border: 1px solid var(--border-color); 
+        }
+
+        .card-icon {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        /* قسم الفاتورة */
+        .invoice-box {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-gold { background-color: var(--accent-gold); color: white; }
+        .btn-outline { background-color: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); }
+
+        /* جدول الأصناف */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 13px;
+        }
+
+        .items-table th, .items-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+        }
+
+        .items-table th {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .total-summary {
+            background: #FFF8E1;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        /* شريط التنقل السفلي */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #FFFFFF;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 11px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 25%;
+        }
+
+        .nav-item.active {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 2px;
+        }
+
+        @media print {
+            body { padding-bottom: 0; background: #FFF; }
+            .footer-nav, .header, .btn, .no-print { display: none !important; }
+            .container { max-width: 100%; padding: 0; }
+            .invoice-box { border: none; box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر والصورة الشخصية -->
+    <div class="header">
+        <h1>بقالة العزي للمواد الغذائية</h1>
+        <div class="profile-container">
+            <img src="avatar.jpg" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200';" alt="صاحب بقالة العزي" class="profile-avatar">
+        </div>
+        <div class="welcome-title">مرحباً بكم في بقالتكم المفضلة!</div>
+        <div class="welcome-sub">تطبيقكم الشامل للتسوق، التقارير، والخدمات البنكية.</div>
+    </div>
+
+    <div class="container">
+        
+        <!-- التبويب 1: الرئيسية -->
+        <div id="tab-home" class="tab-content active">
+            <div class="grid-container">
+                <div class="card card-gold" onclick="switchTab('tab-orders')">
+                    <div class="card-icon">🛍️</div>
+                    <div class="card-title">التسوق الفوري</div>
+                </div>
+                <div class="card card-gold" onclick="switchTab('tab-orders')">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">تقارير المبيعات والمخزون</div>
+                </div>
+                <div class="card card-green" onclick="alert('خدمة كاش ونقد مفعّلة جاهزة!')">
+                    <div class="card-icon">🤝</div>
+                    <div class="card-title">خدمات كاش ونقد</div>
+                </div>
+                <div class="card card-dark-green" onclick="switchTab('tab-ledger')">
+                    <div class="card-icon">📖</div>
+                    <div class="card-title">دفتر الحسابات</div>
+                </div>
+                <div class="card card-white" onclick="switchTab('tab-orders')">
+                    <div class="card-icon">🧾</div>
+                    <div class="card-title">طباعة الفواتير الحرارية</div>
+                </div>
+                <div class="card card-white" onclick="window.print()">
+                    <div class="card-icon">📄</div>
+                    <div class="card-title">تقارير PDF الشهرية</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- التبويب 2: الطلبات والفواتير -->
+        <div id="tab-orders" class="tab-content">
+            <div class="invoice-box">
+                <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-color);">إنشاء فاتورة جديدة</h2>
+                
+                <div class="form-group">
+                    <label>اسم العملاء / الزبون:</label>
+                    <input type="text" id="customer-name" class="form-control" value="عبده مياس" placeholder="أدخل اسم الزبون">
+                </div>
+
+                <div class="no-print" style="display: flex; gap: 8px; margin-bottom: 12px;">
+                    <input type="text" id="item-name" class="form-control" placeholder="اسم الصنف">
+                    <input type="number" id="item-price" class="form-control" placeholder="السعر" style="width: 100px;">
+                    <button class="btn btn-gold" style="width: 80px;" onclick="addItem()">إضافة</button>
+                </div>
+
+                <table class="items-table" id="invoice-items">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الصنف</th>
+                            <th>السعر (ر.ي)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>كيس بر</td><td>12,500</td></tr>
+                        <tr><td>2</td><td>زيت طويل</td><td>1,100</td></tr>
+                        <tr><td>3</td><td>دهنه الماس</td><td>4,000</td></tr>
+                        <tr><td>4</td><td>حليب ذرار</td><td>500</td></tr>
+                        <tr><td>5</td><td>حوايج</td><td>500</td></tr>
+                        <tr><td>6</td><td>هرد</td><td>300</td></tr>
+                        <tr><td>7</td><td>قشر</td><td>500</td></tr>
+                        <tr><td>8</td><td>صلصه</td><td>500</td></tr>
+                        <tr><td>9</td><td>صابون دعايه</td><td>450</td></tr>
+                        <tr><td>10</td><td>شاهي</td><td>900</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="total-summary">
+                    <div class="summary-row">
+                        <span>الإجمالي:</span>
+                        <span id="grand-total">21,250 ر.ي</span>
+                    </div>
+                    <div class="summary-row" style="color: #2E7D32;">
+                        <span>المدفوع:</span>
+                        <span id="paid-amount">0 ر.ي</span>
+                    </div>
+                    <div class="summary-row" style="color: #C62828;">
+                        <span>المتبقي:</span>
+                        <span id="remaining-amount">21,250 ر.ي</span>
+                    </div>
+                </div>
+
+                <div class="no-print" style="margin-top: 15px; display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="window.print()">🖨️ طباعة الفاتورة</button>
+                    <button class="btn btn-outline" onclick="resetInvoice()">🔄 فاتورة جديدة</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- التبويب 3: الدفتر -->
+        <div id="tab-ledger" class="tab-content">
+            <div class="invoice-box">
+                <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-color);">دفتر حسابات الديون والعملاء</h2>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="🔍 بحث عن اسم عميل...">
+                </div>
+                <div style="padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong>عبده مياس</strong>
+                        <div style="font-size: 12px; color: var(--text-muted);">آخر فاتورة: 2026/8/20</div>
+                    </div>
+                    <span style="color: #C62828; font-weight: bold;">21,250 ر.ي</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- التبويب 4: الإعدادات -->
+        <div id="tab-settings" class="tab-content">
+            <div class="invoice-box">
+                <h2 style="font-size: 16px; margin-bottom: 12px; color: var(--primary-color);">إعدادات بقالة العزي</h2>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">إعدادات النظام وطباعة الفواتير الحرارية.</p>
+                <button class="btn btn-outline" onclick="alert('تم حفظ الإعدادات بنجاح!')">حفظ البيانات محلياً</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- شريط التنقل السفلي -->
+    <div class="footer-nav">
+        <button class="nav-item active" onclick="switchTab('tab-home')">
+            <span class="nav-icon">🏠</span>
+            <span>الرئيسية</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('tab-orders')">
+            <span class="nav-icon">🛒</span>
+            <span>الطلبات</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('tab-ledger')">
+            <span class="nav-icon">👤</span>
+            <span>الحساب</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('tab-settings')">
+            <span class="nav-icon">⚙️</span>
+            <span>الإعدادات</span>
+        </button>
+    </div>
+
+    <script>
+        let currentItemsCount = 10;
+        let grandTotalSum = 21250;
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+
+            const indexMap = { 'tab-home': 0, 'tab-orders': 1, 'tab-ledger': 2, 'tab-settings': 3 };
+            document.querySelectorAll('.nav-item')[indexMap[tabId]].classList.add('active');
+        }
+
+        function addItem() {
+            const nameInput = document.getElementById('item-name');
+            const priceInput = document.getElementById('item-price');
+
+            if (!nameInput.value || !priceInput.value) {
+                alert('يرجى إدخال اسم الصنف والسعر');
+                return;
+            }
+
+            currentItemsCount++;
+            const price = parseInt(priceInput.value);
+            grandTotalSum += price;
+
+            const tbody = document.querySelector('#invoice-items tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${currentItemsCount}</td><td>${nameInput.value}</td><td>${price.toLocaleString()}</td>`;
+            tbody.appendChild(row);
+
+            document.getElementById('grand-total').innerText = grandTotalSum.toLocaleString() + ' ر.ي';
+            document.getElementById('remaining-amount').innerText = grandTotalSum.toLocaleString() + ' ر.ي';
+
+            nameInput.value = '';
+            priceInput.value = '';
+        }
+
+        function resetInvoice() {
+            if(confirm('هل تريد البدء بفاتورة جديدة؟')) {
+                document.querySelector('#invoice-items tbody').innerHTML = '';
+                currentItemsCount = 0;
+                grandTotalSum = 0;
+                document.getElementById('grand-total').innerText = '0 ر.ي';
+                document.getElementById('remaining-amount').innerText = '0 ر.ي';
+            }
+        }
+    </script>
+</body>
+</html>
+```
