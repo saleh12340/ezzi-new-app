@@ -24,14 +24,11 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Accept Android Licenses
-        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-
-      - name: Generate Android Platform Files
-        run: flutter create --platforms=android .
-
-      - name: Get Dependencies
-        run: flutter pub get
+      - name: Clean Old Android Files & Recreate
+        run: |
+          rm -rf android
+          flutter create --platforms=android --org com.ezzi.grocery .
+          flutter pub get
 
       - name: Build Full APK
         run: flutter build apk --debug
