@@ -22,28 +22,26 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.6'
           channel: 'stable'
           cache: true
 
-      - name: Accept Android Licenses & Generate App
+      - name: Rebuild Project Structure
         run: |
-          yes | flutter doctor --android-licenses || true
           mkdir -p /tmp/backup
           cp pubspec.yaml /tmp/backup/pubspec.yaml
           cp -r lib /tmp/backup/lib
           rm -rf android
-          flutter create . --org com.ezzi.grocery --project-name ezzi_grocery --platforms android --android-language kotlin
+          flutter create . --org com.ezzi.grocery --project-name ezzi_grocery --platforms android
           cp /tmp/backup/pubspec.yaml ./pubspec.yaml
           cp -r /tmp/backup/lib ./
 
-      - name: Get Dependencies
+      - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --debug --suppress-analytics
+      - name: Build Android APK
+        run: flutter build apk --debug --no-tree-shake-icons
 
-      - name: Upload APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Ezzi-Grocery-APK
