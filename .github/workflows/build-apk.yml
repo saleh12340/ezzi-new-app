@@ -24,13 +24,14 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Clean Old Android Files & Recreate
+      - name: Clean Environment & Rebuild Android Structure
         run: |
           rm -rf android
+          flutter clean
           flutter create --platforms=android --org com.ezzi.grocery .
           flutter pub get
 
-      - name: Build Full APK
+      - name: Build Debug APK
         run: flutter build apk --debug
 
       - name: Upload APK Artifact
