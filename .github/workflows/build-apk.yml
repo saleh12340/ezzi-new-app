@@ -22,24 +22,27 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.6'
           channel: 'stable'
+          cache: true
 
-      - name: Build Standalone APK
+      - name: Generate Clean Release APK
         run: |
-          cd /tmp
-          flutter create ezzi_app --org com.ezzi.grocery
+          mkdir -p /tmp/build_env
+          cd /tmp/build_env
+          flutter create ezzi_app --org com.ezzi.grocery --platforms android
           cd ezzi_app
           cp $GITHUB_WORKSPACE/pubspec.yaml ./pubspec.yaml
           rm -rf lib
           cp -r $GITHUB_WORKSPACE/lib ./lib
           flutter pub get
-          flutter build apk --debug --no-tree-shake-icons
-          mkdir -p $GITHUB_WORKSPACE/build/app/outputs/flutter-apk
-          cp build/app/outputs/flutter-apk/app-debug.apk $GITHUB_WORKSPACE/build/app/outputs/flutter-apk/app-debug.apk
+          flutter build apk --release --split-per-abi
 
-      - name: Upload APK
+          mkdir -p $GITHUB_WORKSPACE/build/app/outputs/flutter-apk
+          cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk $GITHUB_WORKSPACE/build/app/outputs/flutter-apk/Ezzi-Grocery-v7a.apk
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk $GITHUB_WORKSPACE/build/app/outputs/flutter-apk/Ezzi-Grocery-arm64.apk
+
+      - name: Upload Optimized APKs
         uses: actions/upload-artifact@v4
         with:
-          name: Ezzi-Grocery-APK
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          name: Ezzi-Grocery-APK-Optimized
+          path: build/app/outputs/flutter-apk/*.apk
