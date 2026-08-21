@@ -1,1067 +1,839 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بقالة العزي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بقالة العزي للمواد الغذائية</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ===== CSS Variables ===== */
-        :root {
-            --primary: #1B5E20;
-            --primary-light: #4CAF50;
-            --primary-dark: #0D3B0D;
-            --gold: #D4A338;
-            --gold-light: #F5E6B0;
-            --bg: #F5F7FA;
-            --card: #FFFFFF;
-            --text: #1E293B;
-            --text-muted: #64748B;
-            --border: #E2E8F0;
-            --danger: #DC2626;
-            --success: #16A34A;
-            --shadow: 0 4px 12px rgba(0,0,0,0.08);
-            --radius: 16px;
-        }
-
-        /* ===== Reset ===== */
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Cairo', sans-serif;
         }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            padding-bottom: 80px;
-            direction: rtl;
-        }
-
-        /* ===== Header ===== */
-        .header {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            padding: 20px 16px 16px;
-            text-align: center;
-            color: white;
-            border-radius: 0 0 28px 28px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 10;
-        }
-
-        .header h1 {
-            font-size: 20px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .header .subtitle {
-            font-size: 12px;
-            opacity: 0.85;
-            margin-bottom: 12px;
-        }
-
-        .profile-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 4px;
-        }
-
-        .avatar {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            border: 3px solid white;
-            object-fit: cover;
-            background: #ccc;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-
-        .avatar-label {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* ===== Container ===== */
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 16px;
-        }
-
-        /* ===== Tabs ===== */
-        .tab-content {
-            display: none;
-            animation: fadeUp 0.3s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ===== Home Grid ===== */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 8px;
-        }
-
-        .card {
-            background: var(--card);
-            border-radius: var(--radius);
-            padding: 18px 10px;
-            text-align: center;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
-            border: 1px solid var(--border);
-            min-height: 90px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .card:active {
-            transform: scale(0.96);
-        }
-
-        .card .icon {
-            font-size: 30px;
-            margin-bottom: 6px;
-        }
-
-        .card .label {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .card .badge {
-            font-size: 11px;
-            background: var(--primary-light);
-            color: white;
-            padding: 2px 12px;
-            border-radius: 20px;
-            margin-top: 4px;
-        }
-
-        .card.gold { background: var(--gold); color: white; border-color: var(--gold); }
-        .card.gold .badge { background: rgba(255,255,255,0.25); }
-        .card.green { background: var(--primary); color: white; border-color: var(--primary); }
-        .card.green .badge { background: rgba(255,255,255,0.25); }
-        .card.white { background: white; }
-
-        /* ===== Invoice ===== */
-        .invoice-box {
-            background: white;
-            border-radius: var(--radius);
-            padding: 16px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        .invoice-box .title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .invoice-box .title-row h2 {
-            font-size: 16px;
-            color: var(--primary);
-        }
-
-        .invoice-box .title-row .date {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-            transition: border 0.2s;
-            background: var(--bg);
-        }
-
-        .form-control:focus {
-            border-color: var(--primary);
-            background: white;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .form-row .form-control {
-            flex: 1;
-            min-width: 60px;
-        }
-
-        .form-row .btn {
-            flex: 0 0 auto;
-        }
-
-        .btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.15s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
-
-        .btn:active {
-            transform: scale(0.95);
-        }
-
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-gold { background: var(--gold); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
-        .btn-sm { padding: 6px 12px; font-size: 12px; }
-
-        /* ===== Table ===== */
-        .table-wrap {
-            overflow-x: auto;
-            margin: 10px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        table th {
-            background: var(--bg);
-            color: var(--primary);
-            font-weight: 700;
-            padding: 8px 6px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        table td {
-            padding: 8px 6px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        table .del-btn {
-            background: none;
-            border: none;
-            color: var(--danger);
-            font-size: 18px;
-            cursor: pointer;
-            padding: 0 4px;
-        }
-
-        .empty-row td {
-            color: var(--text-muted);
-            padding: 24px 8px;
-        }
-
-        /* ===== Summary ===== */
-        .summary {
-            background: #FFF8E1;
-            padding: 14px;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-
-        .summary .row {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            font-weight: 600;
-        }
-
-        .summary .row .paid-input {
-            width: 100px;
-            padding: 4px 8px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        .summary .danger { color: var(--danger); }
-        .summary .success { color: var(--success); }
-
-        /* ===== Actions ===== */
-        .actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 14px;
-            flex-wrap: wrap;
-        }
-
-        .actions .btn {
-            flex: 1;
-            min-width: 80px;
-        }
-
-        /* ===== Ledger ===== */
-        .ledger-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 14px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            background: white;
-        }
-
-        .ledger-item .name {
-            font-weight: 600;
-        }
-
-        .ledger-item .debt {
-            color: var(--danger);
-            font-weight: 700;
-        }
-
-        .ledger-item .meta {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        /* ===== Reports ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 12px 0;
-        }
-
-        .stat-box {
-            background: var(--bg);
-            padding: 14px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .stat-box .number {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .stat-box .label {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* ===== Settings ===== */
-        .settings-group {
-            margin-bottom: 14px;
-        }
-
-        .settings-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        /* ===== Bottom Nav ===== */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            display: flex;
-            border-top: 1px solid var(--border);
-            box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
-            z-index: 100;
-            padding: 4px 0 8px;
-        }
-
-        .bottom-nav .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 4px 0;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 11px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .bottom-nav .nav-item .nav-icon {
-            font-size: 22px;
-            margin-bottom: 2px;
-        }
-
-        .bottom-nav .nav-item.active {
-            color: var(--gold);
-            font-weight: 700;
-        }
-
-        /* ===== Notification ===== */
-        .toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary-dark);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-            z-index: 999;
-            display: none;
-            max-width: 90%;
-            text-align: center;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-
-        /* ===== Print ===== */
+        
+        /* Thermal printing styles */
         @media print {
-            .bottom-nav, .header, .no-print, .actions, .form-row { display: none !important; }
-            body { padding: 0; background: white; }
-            .container { padding: 0; max-width: 100%; }
-            .invoice-box { border: none; box-shadow: none; }
-            .tab-content { display: block !important; }
-            #tab-home, #tab-reports, #tab-ledger, #tab-settings { display: none !important; }
-            #tab-orders { display: block !important; }
+            body * {
+                visibility: hidden;
+            }
+            #thermal-receipt, #thermal-receipt * {
+                visibility: visible;
+            }
+            #thermal-receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 80mm;
+                padding: 6px;
+                margin: 0;
+                background: #fff;
+                color: #000;
+                font-size: 11px;
+            }
+            .no-print {
+                display: none !important;
+            }
         }
 
-        /* ===== Responsive ===== */
-        @media (max-width: 420px) {
-            .grid-2 { gap: 8px; }
-            .card { min-height: 70px; padding: 12px 6px; }
-            .card .icon { font-size: 24px; }
-            .card .label { font-size: 11px; }
-            .form-row { flex-direction: column; }
-            .form-row .form-control { width: 100%; }
-            .form-row .btn { width: 100%; }
-            .stats-grid { grid-template-columns: 1fr 1fr; }
+        .receipt-dashed {
+            border-bottom: 1px dashed #000;
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen pb-20 select-none">
 
-    <!-- ===== Toast ===== -->
-    <div id="toast" class="toast"></div>
-
-    <!-- ===== Header ===== -->
-    <header class="header">
-        <h1 id="shop-title">بقالة العزي</h1>
-        <div class="subtitle">للمواد الغذائية</div>
-        <div class="profile-row">
-            <img id="avatar-img" src="avatar.jpg" alt="صورة" class="avatar" onclick="changeAvatar()" onerror="this.src='https://ui-avatars.com/api/?name=العزي&background=4CAF50&color=fff&size=128'">
-            <span class="avatar-label">مرحباً بك 👋</span>
-        </div>
-    </header>
-
-    <!-- ===== Container ===== -->
-    <div class="container">
-
-        <!-- ===== HOME TAB ===== -->
-        <div id="tab-home" class="tab-content active">
-            <div class="grid-2">
-                <div class="card gold" onclick="switchTab('tab-orders')">
-                    <span class="icon">🛍️</span>
-                    <span class="label">تسوق فوري</span>
-                </div>
-                <div class="card gold" onclick="switchTab('tab-reports')">
-                    <span class="icon">📊</span>
-                    <span class="label">تقارير</span>
-                    <span class="badge" id="report-badge">0</span>
-                </div>
-                <div class="card green" onclick="showToast('✅ خدمة كاش ونقد جاهزة')">
-                    <span class="icon">💰</span>
-                    <span class="label">كاش ونقد</span>
-                </div>
-                <div class="card green" onclick="switchTab('tab-ledger')">
-                    <span class="icon">📖</span>
-                    <span class="label">دفتر الحسابات</span>
-                </div>
-                <div class="card white" onclick="switchTab('tab-orders')">
-                    <span class="icon">🧾</span>
-                    <span class="label">فواتير</span>
-                </div>
-                <div class="card white" onclick="window.print()">
-                    <span class="icon">📄</span>
-                    <span class="label">طباعة PDF</span>
-                </div>
+    <!-- TOP HEADER / HERO SECTION -->
+    <div class="bg-emerald-800 text-white pt-6 pb-8 px-4 rounded-b-[2.5rem] shadow-lg text-center relative no-print">
+        <h1 class="text-2xl font-black tracking-wide mb-3">بقالة العزي للمواد الغذائية</h1>
+        
+        <!-- Profile Avatar / Store Image -->
+        <div class="relative w-24 h-24 mx-auto mb-2">
+            <div class="w-24 h-24 rounded-full border-4 border-white/80 overflow-hidden shadow-md mx-auto bg-emerald-900 flex items-center justify-center">
+                <i class="fa-solid fa-store text-4xl text-amber-300"></i>
             </div>
         </div>
 
-        <!-- ===== ORDERS TAB ===== -->
-        <div id="tab-orders" class="tab-content">
-            <div class="invoice-box">
-                <div class="title-row">
-                    <h2>🧾 فاتورة جديدة</h2>
-                    <span class="date" id="invoice-date"></span>
-                </div>
+        <h2 class="text-xl font-bold text-amber-300">مرحباً بكم في بقالتكم المفضلة!</h2>
+        <p class="text-xs text-emerald-100 font-medium mt-1">تطبيقكم الشامل للتسوق، التقارير، والخدمات البنكية.</p>
+    </div>
 
-                <div class="form-group">
-                    <label>👤 اسم العميل</label>
-                    <input type="text" id="customer-name" class="form-control" placeholder="أدخل اسم العميل">
+    <!-- MAIN NAVIGATION DASHBOARD (HOME SCREEN) -->
+    <main class="container mx-auto px-4 -mt-4 no-print max-w-lg">
+        
+        <!-- DASHBOARD GRID BUTTONS -->
+        <div id="view-dashboard" class="grid grid-cols-2 gap-4">
+            
+            <!-- 1. Quick POS / Instant Shopping -->
+            <button onclick="switchView('pos')" class="bg-amber-500 hover:bg-amber-600 text-white p-4 rounded-2xl flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition active:scale-95">
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-2 text-2xl">
+                    <i class="fa-solid fa-bag-shopping text-white"></i>
                 </div>
+                <span class="font-bold text-sm">التسوق الفوري</span>
+            </button>
 
-                <div class="form-row no-print">
-                    <input type="text" id="item-name" class="form-control" placeholder="الصنف">
-                    <input type="number" id="item-qty" class="form-control" placeholder="الكمية" value="1" min="1">
-                    <input type="number" id="item-price" class="form-control" placeholder="السعر" min="0">
-                    <button class="btn btn-gold" onclick="addItem()">➕ إضافة</button>
+            <!-- 2. Sales & Inventory Reports -->
+            <button onclick="switchView('reports')" class="bg-amber-500 hover:bg-amber-600 text-white p-4 rounded-2xl flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition active:scale-95">
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-2 text-2xl">
+                    <i class="fa-solid fa-chart-simple text-white"></i>
                 </div>
+                <span class="font-bold text-sm">تقارير المبيعات والمخزون</span>
+            </button>
 
-                <div class="table-wrap">
-                    <table>
-                        <thead>
+            <!-- 3. Cash Services -->
+            <button onclick="switchView('cash-service')" class="bg-emerald-700 hover:bg-emerald-800 text-white p-4 rounded-2xl flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition active:scale-95">
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-2 text-2xl">
+                    <i class="fa-solid fa-handshake text-white"></i>
+                </div>
+                <span class="font-bold text-sm">خدمات كاش ونقد</span>
+            </button>
+
+            <!-- 4. Accounts Ledger (Customers) -->
+            <button onclick="switchView('customers')" class="bg-emerald-700 hover:bg-emerald-800 text-white p-4 rounded-2xl flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition active:scale-95">
+                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-2 text-2xl">
+                    <i class="fa-solid fa-book-open text-white"></i>
+                </div>
+                <span class="font-bold text-sm">دفتر الحسابات</span>
+            </button>
+
+            <!-- 5. Thermal Printing -->
+            <button onclick="switchView('print-view')" class="bg-white hover:bg-slate-50 text-slate-700 p-4 rounded-2xl flex flex-col items-center justify-center text-center border border-slate-200 card-shadow transition active:scale-95">
+                <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center mb-2 text-2xl">
+                    <i class="fa-solid fa-receipt"></i>
+                </div>
+                <span class="font-bold text-sm text-slate-800">طباعة الفواتير الحرارية</span>
+            </button>
+
+            <!-- 6. PDF Reports -->
+            <button onclick="switchView('reports')" class="bg-white hover:bg-slate-50 text-slate-700 p-4 rounded-2xl flex flex-col items-center justify-center text-center border border-slate-200 card-shadow transition active:scale-95">
+                <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center mb-2 text-2xl">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+                <span class="font-bold text-sm text-slate-800">تقارير PDF الشهرية</span>
+            </button>
+
+        </div>
+
+        <!-- ==================== SUB VIEW: POS / SHOPPING ==================== -->
+        <div id="view-pos" class="hidden space-y-4 my-4">
+            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <button onclick="switchView('dashboard')" class="text-emerald-700 font-bold text-sm flex items-center">
+                    <i class="fa-solid fa-arrow-right ml-1"></i> العودة للرئيسية
+                </button>
+                <span id="inv-id" class="font-black text-amber-600 text-sm">#INV-1001</span>
+            </div>
+
+            <!-- Customer & Payment Type -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">اسم العميل:</label>
+                    <select id="inv-customer" class="w-full p-2.5 text-xs font-semibold border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-emerald-600">
+                        <option value="زبون عام">زبون عام (نقدي)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">نوع الدفع:</label>
+                    <div class="grid grid-cols-3 gap-2 text-xs font-bold">
+                        <button type="button" onclick="setPaymentType('cash')" id="pay-cash" class="pay-btn p-2 rounded-xl border border-emerald-600 bg-emerald-50 text-emerald-800 text-center">كاش نقداً</button>
+                        <button type="button" onclick="setPaymentType('credit')" id="pay-credit" class="pay-btn p-2 rounded-xl border border-slate-200 text-slate-600 text-center">آجل / دين</button>
+                        <button type="button" onclick="setPaymentType('service_cash')" id="pay-service" class="pay-btn p-2 rounded-xl border border-slate-200 text-slate-600 text-center">خدمة كاش</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-xs text-slate-700">قائمة المواد والمنتجات</h3>
+                    <input type="text" id="product-search" oninput="filterProducts()" placeholder="بحث عن صنف..." class="p-1.5 px-3 text-xs border border-slate-300 rounded-lg outline-none w-36">
+                </div>
+                <div id="products-grid" class="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+                    <!-- Products rendered via JS -->
+                </div>
+            </div>
+
+            <!-- Current Cart -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <h3 class="font-bold text-xs text-slate-700 border-b pb-2">تفاصيل سلة الفاتورة</h3>
+                <div class="max-h-36 overflow-y-auto">
+                    <table class="w-full text-right text-xs">
+                        <thead class="bg-slate-100 text-slate-600">
                             <tr>
-                                <th>#</th>
-                                <th>الصنف</th>
-                                <th>ك</th>
-                                <th>السعر</th>
-                                <th>الإجمالي</th>
-                                <th class="no-print"></th>
+                                <th class="p-2">الصنف</th>
+                                <th class="p-2 text-center">الكمية</th>
+                                <th class="p-2 text-left">الإجمالي</th>
+                                <th class="p-2 text-center">إجراء</th>
                             </tr>
                         </thead>
-                        <tbody id="invoice-body">
-                            <tr class="empty-row">
-                                <td colspan="6">لا توجد أصناف</td>
-                            </tr>
+                        <tbody id="cart-items">
+                            <!-- Items inserted dynamically -->
                         </tbody>
                     </table>
                 </div>
 
-                <div class="summary">
-                    <div class="row">
-                        <span>📦 عدد الأصناف</span>
-                        <span id="item-count">0</span>
-                    </div>
-                    <div class="row">
-                        <span>💰 الإجمالي</span>
-                        <span id="grand-total">0 ر.ي</span>
-                    </div>
-                    <div class="row success">
-                        <span>✅ المدفوع</span>
-                        <span>
-                            <input type="number" id="paid-input" class="paid-input" value="0" min="0" oninput="calcRemaining()">
-                        </span>
-                    </div>
-                    <div class="row danger">
-                        <span>⏳ المتبقي</span>
-                        <span id="remaining">0 ر.ي</span>
-                    </div>
+                <div class="border-t pt-2 flex justify-between items-center font-bold text-sm">
+                    <span>المبلغ الكلي المطلوب:</span>
+                    <span id="summary-total" class="text-emerald-700 text-base">0.00 ر.ي</span>
                 </div>
 
-                <div class="actions no-print">
-                    <button class="btn btn-primary" onclick="saveInvoice()">💾 حفظ</button>
-                    <button class="btn btn-outline" onclick="resetInvoice()">🔄 جديد</button>
-                    <button class="btn btn-danger" onclick="clearItems()">🗑️ مسح</button>
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-4 gap-2 pt-2">
+                    <button onclick="saveInvoice()" class="bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-check ml-1"></i> حفظ</button>
+                    <button onclick="printCurrentInvoice()" class="bg-sky-600 hover:bg-sky-700 text-white py-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-print ml-1"></i> طباعة</button>
+                    <button onclick="resetInvoiceForm()" class="bg-amber-500 hover:bg-amber-600 text-white py-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-plus ml-1"></i> جديد</button>
+                    <button onclick="clearCart()" class="bg-rose-500 hover:bg-rose-600 text-white py-2.5 rounded-xl font-bold text-xs"><i class="fa-solid fa-trash ml-1"></i> مسح</button>
                 </div>
             </div>
         </div>
 
-        <!-- ===== REPORTS TAB ===== -->
-        <div id="tab-reports" class="tab-content">
-            <div class="invoice-box">
-                <h2 style="font-size:16px;color:var(--primary);margin-bottom:8px;">📊 التقارير</h2>
+        <!-- ==================== SUB VIEW: CUSTOMERS LEDGER ==================== -->
+        <div id="view-customers" class="hidden space-y-4 my-4">
+            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <button onclick="switchView('dashboard')" class="text-emerald-700 font-bold text-sm flex items-center">
+                    <i class="fa-solid fa-arrow-right ml-1"></i> العودة للرئيسية
+                </button>
+                <span class="font-bold text-xs text-slate-600">دفتر العملاء والديون</span>
+            </div>
 
-                <div class="stats-grid">
-                    <div class="stat-box">
-                        <div class="number" id="total-invoices">0</div>
-                        <div class="label">عدد الفواتير</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="number" id="total-revenue">0</div>
-                        <div class="label">إجمالي الإيرادات</div>
-                    </div>
+            <!-- Add Customer Form -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <h3 class="font-bold text-xs text-slate-800 mb-3"><i class="fa-solid fa-user-plus text-emerald-600 ml-1"></i> إضافة عميل جديد</h3>
+                <form onsubmit="handleAddCustomer(event)" class="space-y-2 text-xs">
+                    <input type="text" id="cust-name" required placeholder="اسم العميل الكامل *" class="w-full p-2 border border-slate-300 rounded-lg outline-none">
+                    <input type="tel" id="cust-phone" required placeholder="رقم الجوال *" class="w-full p-2 border border-slate-300 rounded-lg outline-none">
+                    <input type="text" id="cust-address" placeholder="العنوان / الشارع" class="w-full p-2 border border-slate-300 rounded-lg outline-none">
+                    <button type="submit" class="w-full bg-emerald-700 text-white py-2 rounded-lg font-bold">حفظ العميل</button>
+                </form>
+            </div>
+
+            <!-- Customer Accounts List -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <h3 class="font-bold text-xs text-slate-800 mb-3"><i class="fa-solid fa-address-book text-emerald-600 ml-1"></i> قائمة الحسابات</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right text-xs">
+                        <thead class="bg-slate-100 text-slate-600">
+                            <tr>
+                                <th class="p-2">الاسم</th>
+                                <th class="p-2">المتبقي (دين)</th>
+                                <th class="p-2 text-center">إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-table-body">
+                            <!-- Rendered JS -->
+                        </tbody>
+                    </table>
                 </div>
-
-                <button class="btn btn-primary" onclick="loadReports()" style="width:100%;margin-bottom:12px;">🔄 تحديث</button>
-
-                <div id="reports-list"></div>
             </div>
         </div>
 
-        <!-- ===== LEDGER TAB ===== -->
-        <div id="tab-ledger" class="tab-content">
-            <div class="invoice-box">
-                <h2 style="font-size:16px;color:var(--primary);margin-bottom:8px;">📖 دفتر الحسابات</h2>
+        <!-- ==================== SUB VIEW: REPORTS & DAILY TRANSACTION ==================== -->
+        <div id="view-reports" class="hidden space-y-4 my-4">
+            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <button onclick="switchView('dashboard')" class="text-emerald-700 font-bold text-sm flex items-center">
+                    <i class="fa-solid fa-arrow-right ml-1"></i> العودة للرئيسية
+                </button>
+                <span class="font-bold text-xs text-slate-600">التقارير اليومية والشاملة</span>
+            </div>
 
-                <div class="form-group">
-                    <input type="text" id="search-ledger" class="form-control" placeholder="🔍 بحث عن عميل..." oninput="renderLedger()">
+            <!-- Summary Widgets -->
+            <div class="grid grid-cols-2 gap-3 text-xs font-bold">
+                <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
+                    <p class="text-emerald-800">إجمالي النقدية (كاش)</p>
+                    <p id="rep-total-cash" class="text-lg text-emerald-700 mt-1">0.00 ر.ي</p>
                 </div>
+                <div class="bg-rose-50 border border-rose-200 p-3 rounded-xl">
+                    <p class="text-rose-800">إجمالي الآجل (دين)</p>
+                    <p id="rep-total-credit" class="text-lg text-rose-700 mt-1">0.00 ر.ي</p>
+                </div>
+                <div class="bg-indigo-50 border border-indigo-200 p-3 rounded-xl">
+                    <p class="text-indigo-800">خدمات الكاش والنقد</p>
+                    <p id="rep-total-service" class="text-lg text-indigo-700 mt-1">0.00 ر.ي</p>
+                </div>
+                <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl">
+                    <p class="text-amber-800">عدد الفواتير</p>
+                    <p id="rep-total-count" class="text-lg text-amber-700 mt-1">0</p>
+                </div>
+            </div>
 
-                <div id="ledger-list"></div>
+            <!-- Daily Transactions Log -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-xs text-slate-800">سجل الفواتير والعمليات اليومية</h3>
+                    <input type="text" id="report-search" oninput="renderReportsTable()" placeholder="بحث برقم الفاتورة..." class="p-1 px-2 text-xs border rounded w-28">
+                </div>
+                <div class="overflow-x-auto max-h-60">
+                    <table class="w-full text-right text-xs">
+                        <thead class="bg-slate-100 text-slate-600 sticky top-0">
+                            <tr>
+                                <th class="p-2">الفاتورة</th>
+                                <th class="p-2">الوقت</th>
+                                <th class="p-2">العميل</th>
+                                <th class="p-2">المبلغ</th>
+                                <th class="p-2 text-center">تعديل/حذف</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-table-body">
+                            <!-- Invoices JS -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- ===== SETTINGS TAB ===== -->
-        <div id="tab-settings" class="tab-content">
-            <div class="invoice-box">
-                <h2 style="font-size:16px;color:var(--primary);margin-bottom:12px;">⚙️ الإعدادات</h2>
+        <!-- ==================== SUB VIEW: CASH SERVICES ==================== -->
+        <div id="view-cash-service" class="hidden space-y-4 my-4">
+            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <button onclick="switchView('dashboard')" class="text-emerald-700 font-bold text-sm flex items-center">
+                    <i class="fa-solid fa-arrow-right ml-1"></i> العودة للرئيسية
+                </button>
+                <span class="font-bold text-xs text-slate-600">خدمات تحويل الكاش والنقدية</span>
+            </div>
 
-                <div class="settings-group">
-                    <label>🏪 اسم المتجر</label>
-                    <input type="text" id="shop-name" class="form-control" value="بقالة العزي" onchange="saveSettings()">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 text-xs">
+                <h3 class="font-bold text-slate-800"><i class="fa-solid fa-mobile-retro text-emerald-600 ml-1"></i> تسديد/إيداع خدمة كاش ونقد فورية</h3>
+                <div>
+                    <label class="block font-bold mb-1">اسم العميل/المستفيد:</label>
+                    <input type="text" id="service-cust-name" placeholder="اسم العميل" class="w-full p-2 border rounded-lg">
                 </div>
-
-                <div class="settings-group">
-                    <label>📞 رقم الهاتف</label>
-                    <input type="text" id="shop-phone" class="form-control" value="+967 77 123 4567" onchange="saveSettings()">
+                <div>
+                    <label class="block font-bold mb-1">مبلغ العملية (ر.ي):</label>
+                    <input type="number" id="service-amount" placeholder="المبلغ" class="w-full p-2 border rounded-lg">
                 </div>
-
-                <button class="btn btn-primary" onclick="exportData()" style="width:100%;margin-top:6px;">📤 تصدير البيانات</button>
-                <button class="btn btn-outline" onclick="document.getElementById('import-input').click()" style="width:100%;margin-top:6px;">📥 استيراد البيانات</button>
-                <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(event)">
-                <button class="btn btn-danger" onclick="clearAll()" style="width:100%;margin-top:6px;">🗑️ مسح الكل</button>
+                <div>
+                    <label class="block font-bold mb-1">نوع الخدمة:</label>
+                    <select id="service-type" class="w-full p-2 border rounded-lg">
+                        <option value="سحب كاش">سحب نقدي (كاش)</option>
+                        <option value="إيداع محفظة">إيداع محفظة إلكترونية</option>
+                        <option value="تحويل كاش">تحويل سريع</option>
+                    </select>
+                </div>
+                <button onclick="saveCashServiceTransaction()" class="w-full bg-emerald-700 text-white py-2.5 rounded-xl font-bold">تسجيل العملية فوراً</button>
             </div>
         </div>
 
-    </div>
+        <!-- ==================== SUB VIEW: THERMAL PRINT VIEW ==================== -->
+        <div id="view-print-view" class="hidden space-y-4 my-4">
+            <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+                <button onclick="switchView('dashboard')" class="text-emerald-700 font-bold text-sm flex items-center">
+                    <i class="fa-solid fa-arrow-right ml-1"></i> العودة للرئيسية
+                </button>
+                <span class="font-bold text-xs text-slate-600">طباعة الفواتير الحرارية</span>
+            </div>
 
-    <!-- ===== Bottom Nav ===== -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" onclick="switchTab('tab-home')">
-            <span class="nav-icon">🏠</span>
-            <span>الرئيسية</span>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3 text-xs">
+                <h3 class="font-bold text-slate-800">طباعة أي فاتورة سابقة بالطابعة الحرارية</h3>
+                <div>
+                    <label class="block font-bold mb-1">أدخل رقم الفاتورة (مثلاً: 1001):</label>
+                    <input type="number" id="print-search-id" placeholder="1001" class="w-full p-2 border rounded-lg">
+                </div>
+                <button onclick="printInvoiceById()" class="w-full bg-sky-600 text-white py-2.5 rounded-xl font-bold"><i class="fa-solid fa-print ml-1"></i> معاينة وطباعة الفاتورة</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- BOTTOM MOBILE NAVIGATION BAR -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-6 py-2 flex justify-between items-center text-center shadow-lg z-40 no-print max-w-lg mx-auto">
+        <button onclick="switchView('dashboard')" id="nav-dashboard" class="flex flex-col items-center text-emerald-800">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[10px] font-bold mt-0.5">الرئيسية</span>
         </button>
-        <button class="nav-item" onclick="switchTab('tab-orders')">
-            <span class="nav-icon">🛒</span>
-            <span>الطلبات</span>
+        <button onclick="switchView('pos')" id="nav-pos" class="flex flex-col items-center text-slate-400 hover:text-emerald-700">
+            <i class="fa-solid fa-cart-shopping text-lg"></i>
+            <span class="text-[10px] font-bold mt-0.5">الطلبات</span>
         </button>
-        <button class="nav-item" onclick="switchTab('tab-reports')">
-            <span class="nav-icon">📊</span>
-            <span>التقارير</span>
+        <button onclick="switchView('customers')" id="nav-customers" class="flex flex-col items-center text-slate-400 hover:text-emerald-700">
+            <i class="fa-solid fa-user text-lg"></i>
+            <span class="text-[10px] font-bold mt-0.5">الحساب</span>
         </button>
-        <button class="nav-item" onclick="switchTab('tab-ledger')">
-            <span class="nav-icon">📖</span>
-            <span>الحسابات</span>
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-settings')">
-            <span class="nav-icon">⚙️</span>
-            <span>الإعدادات</span>
+        <button onclick="switchView('reports')" id="nav-reports" class="flex flex-col items-center text-slate-400 hover:text-emerald-700">
+            <i class="fa-solid fa-gear text-lg"></i>
+            <span class="text-[10px] font-bold mt-0.5">الإعدادات</span>
         </button>
     </nav>
 
-    <!-- ============================================================ -->
-    <!-- ===== JAVASCRIPT ===== -->
+    <!-- THERMAL RECEIPT LAYOUT (PRINT ONLY) -->
+    <div id="thermal-receipt" class="hidden">
+        <div class="text-center pb-2 mb-2 receipt-dashed">
+            <h1 class="font-extrabold text-sm">=== بقالة العزي ===</h1>
+            <p class="text-[10px] font-bold">للمواد الغذائية والاستهلاكية</p>
+            <p class="text-[9px]">هاتف/جوال: 777123456 - 01234567</p>
+            <p class="text-[9px]">العنوان: الفرع الرئيسي - صنعاء</p>
+        </div>
+
+        <div class="text-[9px] mb-2 receipt-dashed pb-1">
+            <p><strong>رقم الفاتورة:</strong> <span id="print-inv-id">#0000</span></p>
+            <p><strong>التاريخ والوقت:</strong> <span id="print-inv-date">--/--/---- --:--</span></p>
+            <p><strong>العميل:</strong> <span id="print-inv-customer">زبون عام</span></p>
+            <p><strong>طريقة الدفع:</strong> <span id="print-inv-paytype">نقداً</span></p>
+        </div>
+
+        <table class="w-full text-[9px] text-right mb-2">
+            <thead>
+                <tr class="border-b border-black">
+                    <th class="py-1">الصنف</th>
+                    <th class="py-1 text-center">الكمية</th>
+                    <th class="py-1 text-left">الإجمالي</th>
+                </tr>
+            </thead>
+            <tbody id="print-inv-items">
+                <!-- Items inserted via JS -->
+            </tbody>
+        </table>
+
+        <div class="text-[9px] pt-1 receipt-dashed mb-2 space-y-1">
+            <div class="flex justify-between font-bold text-xs">
+                <span>المبلغ الإجمالي:</span>
+                <span id="print-inv-total">0.00 ر.ي</span>
+            </div>
+            <div class="flex justify-between">
+                <span>المبلغ المتبقي دين:</span>
+                <span id="print-inv-due">0.00 ر.ي</span>
+            </div>
+        </div>
+
+        <div class="text-center text-[8px] pt-1">
+            <p class="font-bold">شكراً لزيارتكم بقالة العزي!</p>
+            <p>البضاعة المباعة ترجع وتستبدل خلال 3 أيام مع وجود الفاتورة.</p>
+        </div>
+    </div>
+
+    <!-- MODAL FOR EDITING / PAYMENTS -->
+    <div id="modal-container" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white w-full max-w-sm rounded-2xl p-4 shadow-xl space-y-3 text-xs">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="font-bold text-slate-800 text-sm" id="modal-title">تعديل البيانات</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="modal-body" class="space-y-2"></div>
+            <div class="flex justify-end space-x-2 space-x-reverse pt-2 border-t">
+                <button onclick="closeModal()" class="px-3 py-1.5 bg-slate-200 text-slate-700 rounded-lg font-bold">إلغاء</button>
+                <button id="modal-save-btn" class="px-3 py-1.5 bg-emerald-700 text-white rounded-lg font-bold">حفظ التغييرات</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION JAVASCRIPT LOGIC -->
     <script>
-        // =============================================
-        // DATA LAYER
-        // =============================================
-        let items = [];
-        let invoices = [];
-        let nextId = 1;
+        const defaultProducts = [
+            { id: 1, name: "أرز بسمتي 5 كجم", price: 6500 },
+            { id: 2, name: "زيت طعام 1.5 لتر", price: 2800 },
+            { id: 3, name: "سكر أبيض 2 كجم", price: 1800 },
+            { id: 4, name: "حليب مجفف 400 جم", price: 2200 },
+            { id: 5, name: "دقيق أبيض 5 كجم", price: 3200 },
+            { id: 6, name: "شاي كبوس 250 جم", price: 1200 },
+            { id: 7, name: "معجون طماطم علبة", price: 400 },
+            { id: 8, name: "جبن كاسات صغير", price: 900 }
+        ];
 
-        // =============================================
-        // LOAD / SAVE
-        // =============================================
-        function loadData() {
-            try {
-                const raw = localStorage.getItem('ezzi_data');
-                if (raw) {
-                    const data = JSON.parse(raw);
-                    invoices = data.invoices || [];
-                    nextId = data.nextId || 1;
-                    if (data.shopName) document.getElementById('shop-name').value = data.shopName;
-                    if (data.shopPhone) document.getElementById('shop-phone').value = data.shopPhone;
-                    document.getElementById('shop-title').textContent = data.shopName || 'بقالة العزي';
-                    updateBadge();
-                }
-            } catch (e) {
-                console.warn('Load error:', e);
-            }
-        }
+        let customers = JSON.parse(localStorage.getItem('alozzi_customers')) || [
+            { id: 101, name: "عبدالله أحمد العزي", phone: "771112233", address: "صنعاء", balance: 1500 }
+        ];
 
-        function saveData() {
-            try {
-                const data = {
-                    invoices: invoices,
-                    nextId: nextId,
-                    shopName: document.getElementById('shop-name').value,
-                    shopPhone: document.getElementById('shop-phone').value
-                };
-                localStorage.setItem('ezzi_data', JSON.stringify(data));
-                document.getElementById('shop-title').textContent = data.shopName || 'بقالة العزي';
-                updateBadge();
-            } catch (e) {
-                console.warn('Save error:', e);
-            }
-        }
+        let invoices = JSON.parse(localStorage.getItem('alozzi_invoices')) || [];
+        let currentCart = [];
+        let selectedPaymentType = 'cash';
 
-        function updateBadge() {
-            document.getElementById('report-badge').textContent = invoices.length;
-        }
+        window.onload = function() {
+            renderProducts();
+            populateCustomersDropdown();
+            renderCustomersTable();
+            renderReportsTable();
+            updateSummaryWidgets();
+            generateNewInvoiceId();
+        };
 
-        // =============================================
-        // INVOICE
-        // =============================================
-        function addItem() {
-            const name = document.getElementById('item-name').value.trim();
-            const qty = parseInt(document.getElementById('item-qty').value) || 1;
-            const price = parseInt(document.getElementById('item-price').value);
-
-            if (!name || !price || price <= 0) {
-                showToast('⚠️ يرجى إدخال اسم الصنف وسعر صحيح');
-                return;
-            }
-
-            items.push({
-                id: nextId++,
-                name: name,
-                qty: qty,
-                price: price,
-                total: qty * price
+        function switchView(viewName) {
+            const views = ['dashboard', 'pos', 'customers', 'reports', 'cash-service', 'print-view'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if(el) el.classList.add('hidden');
             });
 
-            renderInvoice();
-            document.getElementById('item-name').value = '';
-            document.getElementById('item-price').value = '';
-            document.getElementById('item-qty').value = 1;
-            document.getElementById('item-name').focus();
-            showToast('✅ تم الإضافة');
+            const activeView = document.getElementById(`view-${viewName}`);
+            if(activeView) activeView.classList.remove('hidden');
+
+            // Update Bottom Nav Styling
+            const navItems = ['dashboard', 'pos', 'customers', 'reports'];
+            navItems.forEach(item => {
+                const navBtn = document.getElementById(`nav-${item}`);
+                if(navBtn) {
+                    if(item === viewName || (viewName === 'cash-service' && item === 'dashboard')) {
+                        navBtn.className = "flex flex-col items-center text-emerald-800 font-bold";
+                    } else {
+                        navBtn.className = "flex flex-col items-center text-slate-400 hover:text-emerald-700";
+                    }
+                }
+            });
+
+            if(viewName === 'reports') renderReportsTable();
+            if(viewName === 'customers') renderCustomersTable();
         }
 
-        function deleteItem(id) {
-            items = items.filter(item => item.id !== id);
-            renderInvoice();
+        function generateNewInvoiceId() {
+            const nextId = invoices.length > 0 ? Math.max(...invoices.map(i => i.id)) + 1 : 1001;
+            document.getElementById('inv-id').innerText = `#INV-${nextId}`;
         }
 
-        function renderInvoice() {
-            const tbody = document.getElementById('invoice-body');
-            if (items.length === 0) {
-                tbody.innerHTML = `<tr class="empty-row"><td colspan="6">لا توجد أصناف</td></tr>`;
-                document.getElementById('item-count').textContent = '0';
-                document.getElementById('grand-total').textContent = '0 ر.ي';
-                document.getElementById('remaining').textContent = '0 ر.ي';
+        function renderProducts(filter = '') {
+            const container = document.getElementById('products-grid');
+            container.innerHTML = '';
+            
+            const filtered = defaultProducts.filter(p => p.name.includes(filter));
+            filtered.forEach(prod => {
+                const card = document.createElement('div');
+                card.className = "p-2 border border-slate-200 rounded-xl hover:border-emerald-600 bg-slate-50 flex flex-col justify-between cursor-pointer";
+                card.onclick = () => addToCart(prod);
+                card.innerHTML = `
+                    <p class="font-bold text-[11px] text-slate-800">${prod.name}</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-[11px] font-black text-emerald-700">${prod.price} ر.ي</span>
+                        <span class="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full text-[9px] font-bold">+ إضافة</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterProducts() {
+            const q = document.getElementById('product-search').value.trim();
+            renderProducts(q);
+        }
+
+        function addToCart(product) {
+            const item = currentCart.find(i => i.id === product.id);
+            if(item) {
+                item.qty++;
+            } else {
+                currentCart.push({ ...product, qty: 1 });
+            }
+            renderCart();
+        }
+
+        function updateCartQty(id, qty) {
+            const item = currentCart.find(i => i.id === id);
+            if(item) {
+                item.qty = parseInt(qty) || 1;
+            }
+            renderCart();
+        }
+
+        function removeFromCart(id) {
+            currentCart = currentCart.filter(i => i.id !== id);
+            renderCart();
+        }
+
+        function clearCart() {
+            currentCart = [];
+            renderCart();
+        }
+
+        function renderCart() {
+            const tbody = document.getElementById('cart-items');
+            tbody.innerHTML = '';
+            let total = 0;
+
+            currentCart.forEach(i => {
+                const sub = i.price * i.qty;
+                total += sub;
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="p-1.5 font-bold">${i.name}</td>
+                    <td class="p-1.5 text-center">
+                        <input type="number" value="${i.qty}" min="1" onchange="updateCartQty(${i.id}, this.value)" class="w-10 text-center border rounded">
+                    </td>
+                    <td class="p-1.5 text-left font-black text-emerald-700">${sub.toLocaleString()}</td>
+                    <td class="p-1.5 text-center">
+                        <button onclick="removeFromCart(${i.id})" class="text-rose-600"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('summary-total').innerText = `${total.toLocaleString()} ر.ي`;
+        }
+
+        function setPaymentType(type) {
+            selectedPaymentType = type;
+            document.querySelectorAll('.pay-btn').forEach(btn => {
+                btn.className = "pay-btn p-2 rounded-xl border border-slate-200 text-slate-600 text-center";
+            });
+            const sel = document.getElementById(`pay-${type === 'cash' ? 'cash' : type === 'credit' ? 'credit' : 'service'}`);
+            if(sel) sel.className = "pay-btn p-2 rounded-xl border border-emerald-600 bg-emerald-50 text-emerald-800 text-center font-bold";
+        }
+
+        function populateCustomersDropdown() {
+            const select = document.getElementById('inv-customer');
+            select.innerHTML = `<option value="زبون عام">زبون عام (نقدي)</option>`;
+            customers.forEach(c => {
+                select.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+            });
+        }
+
+        function handleAddCustomer(e) {
+            e.preventDefault();
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+
+            customers.push({ id: Date.now(), name, phone, address, balance: 0 });
+            saveData();
+            populateCustomersDropdown();
+            renderCustomersTable();
+            e.target.reset();
+            alert('تم حفض بيانات العميل الجديد بنجاح!');
+        }
+
+        function renderCustomersTable() {
+            const tbody = document.getElementById('customers-table-body');
+            tbody.innerHTML = '';
+            customers.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="p-2 font-bold">${c.name}</td>
+                    <td class="p-2 font-black ${c.balance > 0 ? 'text-rose-600' : 'text-emerald-700'}">${c.balance.toLocaleString()} ر.ي</td>
+                    <td class="p-2 text-center space-x-1 space-x-reverse">
+                        <button onclick="openPaymentModal(${c.id})" class="px-2 py-1 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">تسديد</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveInvoice() {
+            if(currentCart.length === 0) {
+                alert('يرجى إضافة أصناف للفاتورة أولاً!');
                 return;
             }
 
-            let total = 0;
-            let html = '';
-            items.forEach((item, idx) => {
-                total += item.total;
-                html += `
+            const custName = document.getElementById('inv-customer').value;
+            const total = currentCart.reduce((s, i) => s + (i.price * i.qty), 0);
+            const now = new Date();
+            const invId = parseInt(document.getElementById('inv-id').innerText.replace('#INV-', ''));
+
+            if(selectedPaymentType === 'credit' && custName === 'زبون عام') {
+                alert('تنبيه: الدفع الآجل يتطلب تحديد عميل مسجل!');
+                return;
+            }
+
+            const inv = {
+                id: invId,
+                date: now.toLocaleDateString('ar-YE'),
+                time: now.toLocaleTimeString('ar-YE', { hour: '2-digit', minute: '2-digit' }),
+                customer: custName,
+                paymentType: selectedPaymentType,
+                items: [...currentCart],
+                total
+            };
+
+            invoices.unshift(inv);
+
+            if(selectedPaymentType === 'credit') {
+                const c = customers.find(item => item.name === custName);
+                if(c) c.balance += total;
+            }
+
+            saveData();
+            alert('تم حفظ الفاتورة بنجاح!');
+            resetInvoiceForm();
+            updateSummaryWidgets();
+        }
+
+        function resetInvoiceForm() {
+            currentCart = [];
+            renderCart();
+            generateNewInvoiceId();
+            setPaymentType('cash');
+            document.getElementById('inv-customer').value = "زبون عام";
+        }
+
+        function printCurrentInvoice() {
+            if(currentCart.length === 0) {
+                alert('لا توجد عناصر للطباعة!');
+                return;
+            }
+            const total = currentCart.reduce((s, i) => s + (i.price * i.qty), 0);
+            const now = new Date();
+
+            triggerThermalPrint({
+                id: document.getElementById('inv-id').innerText,
+                date: now.toLocaleDateString('ar-YE') + ' ' + now.toLocaleTimeString('ar-YE', { hour: '2-digit', minute: '2-digit' }),
+                customer: document.getElementById('inv-customer').value,
+                paymentType: selectedPaymentType,
+                items: currentCart,
+                total
+            });
+        }
+
+        function printInvoiceById() {
+            const idVal = parseInt(document.getElementById('print-search-id').value);
+            const inv = invoices.find(i => i.id === idVal);
+            if(!inv) {
+                alert('الفاتورة غير موجودة!');
+                return;
+            }
+            triggerThermalPrint({
+                id: `#INV-${inv.id}`,
+                date: `${inv.date} ${inv.time}`,
+                customer: inv.customer,
+                paymentType: inv.paymentType,
+                items: inv.items,
+                total: inv.total
+            });
+        }
+
+        function triggerThermalPrint(invData) {
+            document.getElementById('print-inv-id').innerText = invData.id;
+            document.getElementById('print-inv-date').innerText = invData.date;
+            document.getElementById('print-inv-customer').innerText = invData.customer;
+            document.getElementById('print-inv-paytype').innerText = invData.paymentType === 'credit' ? 'آجل / دين' : invData.paymentType === 'service_cash' ? 'خدمة كاش' : 'نقداً (كاش)';
+
+            const tbody = document.getElementById('print-inv-items');
+            tbody.innerHTML = '';
+            invData.items.forEach(i => {
+                tbody.innerHTML += `
                     <tr>
-                        <td>${idx + 1}</td>
-                        <td>${item.name}</td>
-                        <td>${item.qty}</td>
-                        <td>${item.price.toLocaleString()}</td>
-                        <td>${item.total.toLocaleString()}</td>
-                        <td class="no-print">
-                            <button class="del-btn" onclick="deleteItem(${item.id})">✕</button>
-                        </td>
+                        <td class="py-0.5">${i.name}</td>
+                        <td class="py-0.5 text-center">${i.qty}</td>
+                        <td class="py-0.5 text-left">${(i.price * i.qty).toLocaleString()}</td>
                     </tr>
                 `;
             });
 
-            tbody.innerHTML = html;
-            document.getElementById('item-count').textContent = items.length;
-            document.getElementById('grand-total').textContent = total.toLocaleString() + ' ر.ي';
-            calcRemaining();
+            document.getElementById('print-inv-total').innerText = `${invData.total.toLocaleString()} ر.ي`;
+            document.getElementById('print-inv-due').innerText = invData.paymentType === 'credit' ? `${invData.total.toLocaleString()} ر.ي` : '0.00 ر.ي';
+
+            document.getElementById('thermal-receipt').classList.remove('hidden');
+            window.print();
+            document.getElementById('thermal-receipt').classList.add('hidden');
         }
 
-        function calcRemaining() {
-            const totalText = document.getElementById('grand-total').textContent;
-            const total = parseInt(totalText.replace(/[^\d]/g, '')) || 0;
-            const paid = parseInt(document.getElementById('paid-input').value) || 0;
-            const rem = Math.max(0, total - paid);
-            document.getElementById('remaining').textContent = rem.toLocaleString() + ' ر.ي';
+        function renderReportsTable() {
+            const tbody = document.getElementById('reports-table-body');
+            tbody.innerHTML = '';
+            const q = document.getElementById('report-search').value.toLowerCase();
+            const filtered = invoices.filter(i => i.id.toString().includes(q) || i.customer.toLowerCase().includes(q));
+
+            filtered.forEach(inv => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="p-2 font-bold text-emerald-700">#INV-${inv.id}</td>
+                    <td class="p-2 text-[10px] text-slate-500">${inv.time}</td>
+                    <td class="p-2 font-medium">${inv.customer}</td>
+                    <td class="p-2 font-black">${inv.total.toLocaleString()}</td>
+                    <td class="p-2 text-center space-x-1 space-x-reverse">
+                        <button onclick="deleteInvoice(${inv.id})" class="text-rose-600 font-bold"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
-        function resetInvoice() {
-            if (items.length > 0 && !confirm('مسح الأصناف الحالية؟')) return;
-            items = [];
-            document.getElementById('customer-name').value = '';
-            document.getElementById('paid-input').value = 0;
-            renderInvoice();
-            showToast('🔄 فاتورة جديدة');
-        }
+        function saveCashServiceTransaction() {
+            const name = document.getElementById('service-cust-name').value.trim();
+            const amount = parseFloat(document.getElementById('service-amount').value);
+            const type = document.getElementById('service-type').value;
 
-        function clearItems() {
-            if (items.length === 0) return;
-            if (!confirm('حذف جميع الأصناف؟')) return;
-            items = [];
-            renderInvoice();
-            showToast('🗑️ تم المسح');
-        }
-
-        function saveInvoice() {
-            const customer = document.getElementById('customer-name').value.trim() || 'عميل غير مسجل';
-            const totalText = document.getElementById('grand-total').textContent;
-            const total = parseInt(totalText.replace(/[^\d]/g, '')) || 0;
-            const paid = parseInt(document.getElementById('paid-input').value) || 0;
-
-            if (items.length === 0) {
-                showToast('⚠️ لا توجد أصناف');
+            if(!name || !amount) {
+                alert('يرجى ملء اسم العميل والمبلغ بشكل صحيح!');
                 return;
             }
 
-            const invoice = {
-                id: Date.now(),
-                customer: customer,
-                date: new Date().toISOString(),
-                items: items.map(i => ({ ...i })),
-                total: total,
-                paid: paid,
-                remaining: Math.max(0, total - paid)
+            const inv = {
+                id: invoices.length > 0 ? Math.max(...invoices.map(i => i.id)) + 1 : 1001,
+                date: new Date().toLocaleDateString('ar-YE'),
+                time: new Date().toLocaleTimeString('ar-YE', { hour: '2-digit', minute: '2-digit' }),
+                customer: `${name} (${type})`,
+                paymentType: 'service_cash',
+                items: [{ name: type, qty: 1, price: amount }],
+                total: amount
             };
 
-            invoices.push(invoice);
+            invoices.unshift(inv);
             saveData();
-            showToast(`✅ تم حفظ فاتورة "${customer}"`);
-
-            // Print
-            window.print();
-
-            // Reset
-            items = [];
-            document.getElementById('customer-name').value = '';
-            document.getElementById('paid-input').value = 0;
-            renderInvoice();
+            alert('تم تسجيل عملية الخدمة بنجاح!');
+            document.getElementById('service-cust-name').value = '';
+            document.getElementById('service-amount').value = '';
+            updateSummaryWidgets();
         }
 
-        // =============================================
-        // LEDGER
-        // =============================================
-        function renderLedger() {
-            const container = document.getElementById('ledger-list');
-            const search = document.getElementById('search-ledger').value.trim();
+        function deleteInvoice(id) {
+            if(confirm(`هل تريد إزالة الفاتورة #INV-${id}؟`)) {
+                invoices = invoices.filter(i => i.id !== id);
+                saveData();
+                renderReportsTable();
+                updateSummaryWidgets();
+            }
+        }
 
-            const debts = {};
-            invoices.forEach(inv => {
-                const name = inv.customer || 'غير مسجل';
-                if (search && !name.includes(search)) return;
-                if (inv.remaining > 0) {
-                    debts[name] = (debts[name] || 0) + inv.remaining;
-                }
+        function updateSummaryWidgets() {
+            let cash = 0, credit = 0, service = 0;
+            invoices.forEach(i => {
+                if(i.paymentType === 'cash') cash += i.total;
+                if(i.paymentType === 'credit') credit += i.total;
+                if(i.paymentType === 'service_cash') service += i.total;
             });
 
-            const entries = Object.entries(debts);
-            if (entries.length === 0) {
-                container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--text-muted);">😊 لا توجد ديون</div>`;
-                return;
-            }
+            document.getElementById('rep-total-cash').innerText = `${cash.toLocaleString()} ر.ي`;
+            document.getElementById('rep-total-credit').innerText = `${credit.toLocaleString()} ر.ي`;
+            document.getElementById('rep-total-service').innerText = `${service.toLocaleString()} ر.ي`;
+            document.getElementById('rep-total-count').innerText = invoices.length;
+        }
 
-            container.innerHTML = entries.map(([name, debt]) => `
-                <div class="ledger-item">
-                    <div>
-                        <div class="name">${name}</div>
-                        <div class="meta">آخر فاتورة: ${getLastDate(name)}</div>
-                    </div>
-                    <div class="debt">${debt.toLocaleString()} ر.ي</div>
+        function openModal(title, html, action) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerHTML = html;
+            document.getElementById('modal-save-btn').onclick = action;
+            document.getElementById('modal-container').classList.remove('hidden');
+            document.getElementById('modal-container').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-container').classList.add('hidden');
+            document.getElementById('modal-container').classList.remove('flex');
+        }
+
+        function openPaymentModal(custId) {
+            const cust = customers.find(c => c.id === custId);
+            if(!cust) return;
+
+            const html = `
+                <p class="font-bold">الرصيد المتبقي: <span class="text-rose-600">${cust.balance.toLocaleString()} ر.ي</span></p>
+                <div>
+                    <label class="block font-bold mb-1">المبلغ المقبوض للتسديد:</label>
+                    <input type="number" id="pay-amount" placeholder="أدخل المبلغ" class="w-full p-2 border rounded">
                 </div>
-            `).join('');
-        }
+            `;
 
-        function getLastDate(name) {
-            const inv = invoices.filter(i => i.customer === name).pop();
-            if (!inv) return 'غير معروف';
-            return new Date(inv.date).toLocaleDateString('ar-EG');
-        }
-
-        // =============================================
-        // REPORTS
-        // =============================================
-        function loadReports() {
-            document.getElementById('total-invoices').textContent = invoices.length;
-            const revenue = invoices.reduce((sum, inv) => sum + inv.total, 0);
-            document.getElementById('total-revenue').textContent = revenue.toLocaleString() + ' ر.ي';
-
-            const container = document.getElementById('reports-list');
-            if (invoices.length === 0) {
-                container.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text-muted);">📭 لا توجد فواتير</div>`;
-                return;
-            }
-
-            const recent = [...invoices].reverse().slice(0, 10);
-            container.innerHTML = recent.map(inv => `
-                <div style="padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:white;">
-                    <div style="display:flex;justify-content:space-between;font-size:13px;">
-                        <span><strong>${inv.customer || 'عميل'}</strong></span>
-                        <span>${new Date(inv.date).toLocaleDateString('ar-EG')}</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-top:4px;">
-                        <span>${inv.items.length} صنف</span>
-                        <span>${inv.total.toLocaleString()} ر.ي</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // =============================================
-        // SETTINGS
-        // =============================================
-        function saveSettings() {
-            saveData();
-            showToast('✅ تم حفظ الإعدادات');
-        }
-
-        function exportData() {
-            const data = localStorage.getItem('ezzi_data');
-            if (!data) { showToast('⚠️ لا توجد بيانات'); return; }
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `ezzi_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('📤 تم التصدير');
-        }
-
-        function importData(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-                try {
-                    const data = JSON.parse(ev.target.result);
-                    if (data.invoices) {
-                        localStorage.setItem('ezzi_data', JSON.stringify(data));
-                        loadData();
-                        renderLedger();
-                        loadReports();
-                        showToast('📥 تم الاستيراد');
-                    } else {
-                        showToast('⚠️ ملف غير صالح');
-                    }
-                } catch (err) {
-                    showToast('⚠️ خطأ في القراءة');
+            openModal(`تسديد حساب: ${cust.name}`, html, function() {
+                const amt = parseFloat(document.getElementById('pay-amount').value);
+                if(amt && amt > 0) {
+                    cust.balance = Math.max(0, cust.balance - amt);
+                    saveData();
+                    renderCustomersTable();
+                    closeModal();
+                    alert('تم تسديد المبلغ وتحديث رصيد العميل!');
                 }
-            };
-            reader.readAsText(file);
-            e.target.value = '';
+            });
         }
 
-        function clearAll() {
-            if (!confirm('⚠️ مسح جميع البيانات؟')) return;
-            if (!confirm('تأكيد نهائي؟')) return;
-            invoices = [];
-            items = [];
-            nextId = 1;
-            localStorage.removeItem('ezzi_data');
-            loadData();
-            renderInvoice();
-            renderLedger();
-            loadReports();
-            showToast('🗑️ تم مسح الكل');
+        function saveData() {
+            localStorage.setItem('alozzi_customers', JSON.stringify(customers));
+            localStorage.setItem('alozzi_invoices', JSON.stringify(invoices));
         }
-
-        // =============================================
-        // AVATAR
-        // =============================================
-        function changeAvatar() {
-            const url = prompt('رابط الصورة الجديدة:', 'https://ui-avatars.com/api/?name=العزي&background=4CAF50&color=fff&size=128');
-            if (url) {
-                document.getElementById('avatar-img').src = url;
-            }
-        }
-
-        // =============================================
-        // NAVIGATION
-        // =============================================
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
-            document.getElementById(tabId).classList.add('active');
-
-            const map = {
-                'tab-home': 0,
-                'tab-orders': 1,
-                'tab-reports': 2,
-                'tab-ledger': 3,
-                'tab-settings': 4
-            };
-            const navs = document.querySelectorAll('.nav-item');
-            if (map[tabId] !== undefined) navs[map[tabId]].classList.add('active');
-
-            if (tabId === 'tab-ledger') renderLedger();
-            if (tabId === 'tab-reports') loadReports();
-            if (tabId === 'tab-orders') renderInvoice();
-        }
-
-        // =============================================
-        // TOAST
-        // =============================================
-        function showToast(msg) {
-            const el = document.getElementById('toast');
-            el.textContent = msg;
-            el.style.display = 'block';
-            clearTimeout(el._t);
-            el._t = setTimeout(() => { el.style.display = 'none'; }, 2500);
-        }
-
-        // =============================================
-        // INIT
-        // =============================================
-        document.getElementById('invoice-date').textContent = new Date().toLocaleDateString('ar-EG', {
-            year: 'numeric', month: 'long', day: 'numeric'
-        });
-
-        loadData();
-        renderInvoice();
-        renderLedger();
-        loadReports();
-
-        // Enter shortcut
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const active = document.activeElement;
-                if (active && ['item-name', 'item-price', 'item-qty'].includes(active.id)) {
-                    addItem();
-                }
-            }
-        });
     </script>
-
 </body>
 </html>
+```
